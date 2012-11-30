@@ -1,0 +1,62 @@
+.page-header
+  %h1 Transcoder console
+.row
+  .span8
+    %h3 Run Command
+    %form#perform
+      .control_group
+        .row
+          .span4
+            %label{for: 'host'}
+              Host:
+              %input#host{type: 'text', name: 'host', value: params[:host]}
+          .span4
+            %label{for: 'port'}
+              Port:
+              %input#port{type: 'text', name: 'port', value: params[:port]}
+
+      .control_group
+        %label{for: 'command'}
+          Command:
+          %textarea.span8{name: 'command', :rows => 5}= params[:command]
+
+      .control_group
+        %input#run_command.btn.btn-primary{type: 'button', value: 'Run'}
+        %img#ajax-loader{src: '/assets/ajax-loader.gif', style: 'display: none;'}
+
+  .span4
+    %h3 Commands
+    %dl.dl-horizontal
+      %dt Get slots
+      %dd List all slots
+      %dt Get slot
+      %dd Get slot details
+      %dt Create slot
+      %dd Create new slot
+      %dt Remove slot
+      %dd Remove given slot
+      %dt Stop slot
+      %dd Stop given slot
+      %dt Restart slot
+      %dd Restart given slot
+      %dt Slot status
+      %dd Show status of given slot
+      %dt Restart
+      %dd Restart the transcoder
+
+.row-fluid
+  %h3 Console
+  .span12
+    .span2
+      %input.btn#clear-log{type: 'button', value: 'Clear Log'}
+    %label.checkbox.inline{for: 'show_output'}
+      show output
+      %input.checkbox#show_output{type: 'checkbox', name: 'show_output', value: '1', checked: true}
+    %label.checkbox.inline{for: 'show_command'}
+      show command
+      %input.checkbox#show_command{type: 'checkbox', name: 'show_command', value: '2', checked: true}
+    %label.checkbox.inline{for: 'show_response'}
+      show response
+      %input.checkbox#show_response{type: 'checkbox', name: 'show_response', value: '3', checked: true}
+    %hr
+    #results

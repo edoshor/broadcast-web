@@ -1,0 +1,25 @@
+.output
+  = Time.now
+  .item
+    %b
+      = @results[:func].upcase
+    -if Transcoder::RET_OK == @results[:error]
+      = @results[:message]
+    -else
+      %b error
+      = "#{@results[:error]} (#{@results[:message]})"
+      %br
+
+    .result{style: "display: none;"}
+      = @results[:result].each do |h, v|
+        = "#{h}: #{v}"
+        %br
+      end
+
+    .command{style: "display: none;"}
+      Command:
+      = @results[:command].unpack('C*').map { |c| '%02x' % c }.join(' ')
+
+    .response{style: "display: none;"}
+      Response:
+      = @results[:response].unpack('C*').map { |c| '%02x' % c }.join(' ').gsub(/( 20)+$/, '')
