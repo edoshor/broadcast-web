@@ -2,6 +2,9 @@ BroadcastWeb::Application.routes.draw do
   get "transcoder_console", controller: :TranscoderConsole, action: :index
   post "transcoder_console/perform"
 
+  get "transcoder_test", controller: :TranscoderTest, action: :index
+  post "transcoder_test/perform"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

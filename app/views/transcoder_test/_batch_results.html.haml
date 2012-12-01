@@ -1,0 +1,14 @@
+.row
+  = Time.now
+  %table.table
+    %thead
+      %tr
+        %th Command
+        %th Result
+    %tbody
+      - @results.each do |command, result|
+        %tr
+          %td
+            = command.cmd
+          %td
+            = result

@@ -1,0 +1,14 @@
+.row
+  = Time.now
+  %table.table
+    %thead
+      %tr
+        %th Command
+        %th Validation
+    %tbody
+      - @validations.each do |command, validation|
+        %tr{:class => ("valid".eql? validation) ? "success" : "error"}
+          %td
+            = command.cmd
+          %td
+            = validation
