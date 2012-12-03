@@ -113,6 +113,19 @@ class Transcoder
     ret
   end
 
+  def mode_save_config
+    error, response, command = send_request('C', MOD_SAVE_CONFIG)
+    ret = {func: 'mode_save_config', error: error, message: response, command: command, response: response}
+    @results << ret and return ret if error != RET_OK
+
+    response_code = response.unpack('C')[0]
+    ret[:error] = response_code
+    ret[:message] = response_code == RET_OK ? "Module config was saved" : "Module config was NOT saved"
+
+    @results << ret
+    ret
+  end
+
   def mod_restart
     error, response, command = send_request('C', MOD_RESTART)
     ret = {func: 'mod_restart', error: error, message: response, command: command, response: response}

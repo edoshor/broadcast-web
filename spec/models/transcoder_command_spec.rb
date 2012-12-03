@@ -14,6 +14,11 @@ describe TranscoderCommand do
       .validate.should eq("valid")
     end
 
+    it "transcoder status" do
+      TranscoderCommand.new("cmd", TranscoderCommand::TRANSCODER_STATUS, [])
+      .validate.should eq("valid")
+    end
+
     it "create slot - preset, single slot" do
       TranscoderCommand.new("cmd", TranscoderCommand::SLOT_CREATE, %w(preset1 1))
       .validate.should eq("valid")
@@ -49,18 +54,18 @@ describe TranscoderCommand do
       .validate.should eq("valid")
     end
 
-    it "start slot - single slot" do
-      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(1))
+    it "start slot - source, single slot" do
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(Source1 1))
       .validate.should eq("valid")
     end
 
-    it "start slot - slot range" do
-      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(1 5))
+    it "start slot - source, slot range" do
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(Source1 1 5))
       .validate.should eq("valid")
     end
 
     it "stop slot - single slot" do
-      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(1))
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_STOP, %w(1))
       .validate.should eq("valid")
     end
 
@@ -85,7 +90,7 @@ describe TranscoderCommand do
     end
 
     it "create slot - 1 argument" do
-      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_CREATE, %w(preset))
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_CREATE, %w(preset1))
       .validate.should eq("not enough arguments")
     end
 
@@ -96,6 +101,11 @@ describe TranscoderCommand do
 
     it "start slot - no args" do
       TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, [])
+      .validate.should eq("not enough arguments")
+    end
+
+    it "start slot - 1 argument" do
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(source1))
       .validate.should eq("not enough arguments")
     end
 
@@ -126,6 +136,13 @@ describe TranscoderCommand do
       command = TranscoderCommand.create(" rEsEt ")
       command.cmd.should eq(" rEsEt ")
       command.type.should eq(TranscoderCommand::TRANSCODER_RESET)
+      command.args.should be_empty
+    end
+
+    it "is a correct status command" do
+      command = TranscoderCommand.create(" Status ")
+      command.cmd.should eq(" Status ")
+      command.type.should eq(TranscoderCommand::TRANSCODER_STATUS)
       command.args.should be_empty
     end
 
