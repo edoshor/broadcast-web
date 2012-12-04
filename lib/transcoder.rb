@@ -36,6 +36,8 @@ class Transcoder
   SLOT_STOPPED = 0
   SLOT_RUNNING = 1
 
+  attr_reader :host, :port, :debug
+
   def initialize(options, &block)
     @host = options.delete(:host)
     @port = options.delete(:port)
@@ -85,6 +87,8 @@ class Transcoder
     ret[:error] = response_code
     ret[:message] = get_error(response_code)
     ret[:result] = {slots_cnt: slots_cnt, slots_ids: slot_ids[0... slots_cnt]} if error == RET_OK
+
+    # TODO slot ids smell buggy. what if we remove slot 5 out of 10 ?
 
     @results << ret
     ret

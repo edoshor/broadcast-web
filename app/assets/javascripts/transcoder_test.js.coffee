@@ -7,10 +7,12 @@ $ ->
 register_handlers = () ->
   $('#run_commands').click ->
     $('#ajax-loader').show()
+    $('#run_commands').attr("disabled", "disabled");
     $.post("/transcoder_test/perform", $("#perform").serialize(),
     (data) ->
       $('#results').prepend(data)
       $('#ajax-loader').hide()
+      $('#run_commands').removeAttr("disabled")
       $('#results').effect('highlight', 'slow')
       false
     )
