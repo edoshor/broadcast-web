@@ -1,5 +1,5 @@
 class TranscoderTestController < ApplicationController
-  require "transcoder"
+  require "transcoder_api"
 
   def index
   end
@@ -9,12 +9,12 @@ class TranscoderTestController < ApplicationController
     commands.delete nil
     @validations = commands.map{|command| [command, command.validate]}
 
-    if @validations.all? {|validation| "valid".eql? validation[1]}
-      transcoder = TranscoderManager.instance.get_transcoder(:main)
+    if @validations.all? {|validation| 'valid'.eql? validation[1]}
+      transcoder = TranscoderManager.instance.get_transcoder('main')
       @results = commands.map {|command| [command, command.execute(transcoder)]}
-      render :partial => "batch_results"
+      render :partial => 'batch_results'
     else
-      render :partial => "invalid_batch"
+      render :partial => 'invalid_batch'
     end
 
   end

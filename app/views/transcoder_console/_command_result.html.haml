@@ -3,7 +3,7 @@
   .item
     %b
       = @results[:func].upcase
-    -if Transcoder::RET_OK == @results[:error]
+    -if TranscoderApi::RET_OK == @results[:error]
       = @results[:message]
     -else
       %b error

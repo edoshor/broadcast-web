@@ -1,4 +1,4 @@
-class Transcoder
+class TranscoderApi
 
   require 'socket'
   require 'timeout'
