@@ -4,6 +4,7 @@ BroadcastWeb::Application.routes.draw do
 
   get "transcoder_test", controller: :TranscoderTest, action: :index
   post "transcoder_test/perform"
+  get "transcoder_test/status"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

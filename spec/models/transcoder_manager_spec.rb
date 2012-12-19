@@ -37,6 +37,18 @@ describe TranscoderManager do
     end
   end
 
+  describe "#get_source_by_address" do
+    it "is nil when unknown signal source" do
+      instance.get_source_by_address('0.0.0.0',1234).should be_nil
+    end
+
+    it "is requested signal source" do
+      source = instance.get_source('source1')
+      source = instance.get_source_by_address(source.ip, source.port)
+      source.should eq(SignalSource.find_by_name 'source1')
+    end
+  end
+
   describe "#has_preset?" do
     it "has known preset" do
       instance.has_preset?('preset1').should == true

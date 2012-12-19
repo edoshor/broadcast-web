@@ -7,7 +7,7 @@ class Transcoder < ActiveRecord::Base
 
   attr_accessible :key, :host, :port
 
-  attr_reader :api
+  attr_accessor :api
 
   # callbacks
 
@@ -23,9 +23,22 @@ class Transcoder < ActiveRecord::Base
     ids.nil? ? [] : ids
   end
 
+  def get_status
+    current_slot_ids.map { |id|
+      TranscoderApiCommand.new(TranscoderApi::MOD_SLOT_CMD,
+                               {slot_cmd: TranscoderApi::CMD_SLOT_GET_STATUS, slot_id: id}) }
+    .map {|api_cmd| [api_cmd, api_cmd.execute(self)]}
+    .each do |cmd, result|
+      slot_id = cmd.args[:slot_id]
+      result[:slot_id] = slot_id
+      result[:preset] = slot_preset(slot_id).name
+      result[:link] = slot_link slot_id
+    end
+  end
+
   def create_slot(slot_id, preset)
     slot_preset = slot_presets.where(slot_id: slot_id).first_or_create!
-    slot_preset.preset = preset
+    slot_preset.preset_id = preset.id
     slot_preset.save!
   end
 
@@ -34,13 +47,13 @@ class Transcoder < ActiveRecord::Base
   end
 
   def slot_preset(slot_id)
-    # optimize: don't load preset from db every time, use TranscoderManager...
-    slot_presets.where(slot_id: slot_id).first!.preset
+    preset_id = slot_presets.where(slot_id: slot_id).first!.preset_id
+    preset = TranscoderManager.instance.get_preset_by_id(preset_id)
+    preset.nil? ? Preset.find(preset_id) : preset
   end
 
   def slot_link(slot_id)
     "http://#{host}:#{8000 + slot_id}"
   end
-
 
 end

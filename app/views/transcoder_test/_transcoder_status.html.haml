@@ -1,0 +1,37 @@
+- if @results.empty?
+  No slots defined
+- else
+  %table.table
+    %tr
+      %td
+        %span
+          %span.badge.badge-success
+            = @running
+          running
+          %span.badge.badge-important
+            = @results.length - @running
+          stopped
+    - @results.each do |result|
+      %tr
+        %td
+          %div
+            %strong= "Slot:#{result[:slot_id]}"
+            = link_to result[:link], result[:link]
+          %div
+            %span
+              %strong Preset:
+              = result[:preset]
+          - if result[:running]
+            %div
+              %span{:class => "#{'label label-warning' if (result[:signal] == 1)}"}
+                %strong Input1:
+                = result[:source1]
+              %span{:class => "#{'label label-warning' if (result[:signal] == 2)}"}
+                %strong Input2:
+                = result[:source2]
+            - if result[:signal] == 0
+              %div
+                No signal
+        %td
+          %span{:class => "label #{(result[:running]) ? 'label-success' : 'label-important'}"}
+            =result[:uptime]

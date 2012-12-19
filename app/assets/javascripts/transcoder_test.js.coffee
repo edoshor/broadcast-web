@@ -10,6 +10,7 @@ register_handlers = () ->
     $('#run_commands').attr("disabled", "disabled");
     $.post("/transcoder_test/perform", $("#perform").serialize(),
     (data) ->
+      $('#commands').val('')
       $('#results').prepend(data)
       $('#ajax-loader').hide()
       $('#run_commands').removeAttr("disabled")
@@ -19,3 +20,11 @@ register_handlers = () ->
 
   $('#clear-log').click ->
     $('#results').html('')
+
+  setInterval(refresh_status, 500)
+
+refresh_status = () ->
+  $.get("/transcoder_test/status",
+    (data) ->
+      $('#status').html(data)
+  )

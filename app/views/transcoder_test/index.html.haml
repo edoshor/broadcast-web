@@ -1,19 +1,24 @@
-.row
-  .span12
-    %h3 Run Commands
-    %form#perform
-      .control_group
-        %label{for: 'commands'}
-          Commands:
-          %textarea.span12{name: 'commands', :rows => 5}= params[:commands]
-
-      .control_group
-        %input#run_commands.btn.btn-primary{type: 'button', value: 'Run'}
-        %img#ajax-loader{src: '/assets/ajax-loader.gif', style: 'display: none;'}
-
 .row-fluid
-  %h3 Console
-  .span12
-    %input.btn#clear-log{type: 'button', value: 'Clear Log'}
-    %hr
-    #results
+  .span8
+    .row-fluid
+      .span12
+        %h3 Run Commands
+        %form#perform
+          .control_group
+            %label{for: 'commands'}
+              Commands:
+              %textarea#commands.span12{name: 'commands', :rows => 5}= params[:commands]
+
+          .control_group
+            %input#run_commands.btn.btn-primary{type: 'button', value: 'Run'}
+            %img#ajax-loader{src: '/assets/ajax-loader.gif', style: 'display: none;'}
+
+    .row-fluid
+      %h3 Console
+      .span12
+        %input.btn#clear-log{type: 'button', value: 'Clear Log'}
+        %hr
+        #results
+  .span4
+    %h3 Transcoder Status
+    %div#status

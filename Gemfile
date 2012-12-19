@@ -12,6 +12,7 @@ gem 'bootstrap-sass', '~> 2.2.1.1'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.0"
+  #gem 'mocha', :require => false
 end
 
 group :test do

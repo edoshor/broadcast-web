@@ -64,6 +64,16 @@ describe TranscoderCommand do
       .validate.should eq("valid")
     end
 
+    it "start slot - 2 sources, slot range" do
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(Source1 source2 1 5))
+      .validate.should eq("valid")
+    end
+
+    it "start slot - 2 sources, single slot" do
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(Source1 source2 1))
+      .validate.should eq("valid")
+    end
+
     it "stop slot - single slot" do
       TranscoderCommand.new("cmd", TranscoderCommand::SLOT_STOP, %w(1))
       .validate.should eq("valid")
@@ -107,6 +117,21 @@ describe TranscoderCommand do
     it "start slot - 1 argument" do
       TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(source1))
       .validate.should eq("not enough arguments")
+    end
+
+    it "start slot - 2 sources, no ids" do
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(source1 source2))
+      .validate.should eq("invalid slot ids")
+    end
+
+    it "start slot - invalid slot ids" do
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(source1 1000 ))
+      .validate.should eq("invalid slot ids")
+    end
+
+    it "start slot - invalid slot ids range" do
+      TranscoderCommand.new("cmd", TranscoderCommand::SLOT_START, %w(source1 1000 1234))
+      .validate.should eq("invalid slot ids")
     end
 
     it "stop slot - no args" do

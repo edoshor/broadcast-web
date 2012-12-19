@@ -7,8 +7,8 @@
         %th Validation
     %tbody
       - @validations.each do |command, validation|
-        %tr{:class => ("valid".eql? validation) ? "success" : "error"}
-          %td
+        %tr{:class => ('valid'.eql? validation) ? 'success' : 'error'}
+          %td{:width => "200px;"}
             = command.cmd
           %td
             = validation

@@ -39,8 +39,10 @@ class TranscoderCommand
         'valid'
       when SLOT_START
         return 'not enough arguments' if @args.length < 2
-        return 'unknown source' unless @manager.has_source? @args[0].downcase
-        return 'invalid slot id' unless slot_ids_valid? @args.slice(1, @args.length)
+        source1, source2, id_start, id_end = slot_start_args
+        return 'unknown primary source' unless @manager.has_source? source1
+        return 'unknown secondary source' unless source2.nil? || @manager.has_source?(source2)
+        return 'invalid slot ids' unless slot_ids_valid?(id_end.nil? ? [id_start] : [id_start, id_end])
         'valid'
       when SLOT_DELETE, SLOT_STOP
         return 'not enough arguments' if @args.empty?
@@ -55,15 +57,16 @@ class TranscoderCommand
 
   def execute(transcoder)
     raise ArgumentError, 'unknown command' if @type == UNKNOWN_COMMAND
-    @transcoder = transcoder
-    results = expand_commands.map { |cmd| cmd.execute transcoder }
 
-    # logic for results handling goes here
-    all_ok = results.all? { |result| result[:error] == TranscoderApi::RET_OK rescue false }
+    @transcoder = transcoder
+
+    results = expand_commands.map { |cmd| [cmd, cmd.execute(transcoder)] }
+    all_ok = results.all? { |cmd, result| result[:error] == TranscoderApi::RET_OK rescue false }
     if all_ok
-      success_message results
+      {success: true, message: success_message}
     else
-      results.delete_if { |result| result[:error] == TranscoderApi::RET_OK rescue true}
+      results.delete_if { |cmd, result| result[:error] == TranscoderApi::RET_OK rescue true}
+      {success: false, errors: results}
     end
   end
 
@@ -80,8 +83,7 @@ class TranscoderCommand
         when SLOT_CREATE
           preset = get_preset
           expand_ids.map { |id|
-            TranscoderApiCommand.new(TranscoderApi::MOD_CREATE_SLOT,
-                                     {slot_id: id, preset: preset})}
+            TranscoderApiCommand.new(TranscoderApi::MOD_CREATE_SLOT, {slot_id: id, preset: preset}) }
         when SLOT_DELETE
           expand_ids.map { |id|
             TranscoderApiCommand.new(TranscoderApi::MOD_REMOVE_SLOT, {slot_id: id}) }
@@ -102,9 +104,7 @@ class TranscoderCommand
         when TRANSCODER_RESET
           [TranscoderApiCommand.new(TranscoderApi::MOD_RESTART, {})]
         when TRANSCODER_STATUS
-          @transcoder.current_slot_ids.map { |id|
-            TranscoderApiCommand.new(TranscoderApi::MOD_SLOT_CMD,
-                                     {slot_cmd: TranscoderApi::CMD_SLOT_GET_STATUS, slot_id: id}) }
+          []
         else
       end
     rescue Exception => e
@@ -116,8 +116,11 @@ class TranscoderCommand
 
   def expand_ids
     case @type
-      when SLOT_CREATE, SLOT_START
+      when SLOT_CREATE
         range = @args.slice(1, @args.length).map { |str| Integer(str) }
+      when SLOT_START
+        source1, source2, id_start, id_end = slot_start_args
+        range = id_end.nil? ? [id_start] : [id_start, id_end]
       when SLOT_DELETE, SLOT_STOP
         if 'all' == @args[0].downcase
           return @transcoder.current_slot_ids
@@ -135,22 +138,40 @@ class TranscoderCommand
   end
 
   def get_preset
-    preset = @args[0].downcase.gsub(/-/, '_')
+    preset = @args[0].downcase
     'auto' == preset ? @manager.random_preset : @manager.get_preset(preset)
   end
 
   def get_sources
-    # todo implement use of primary and secondary
-    primary_source = @manager.get_source @args[0].downcase.gsub(/-/, '_')
-    return primary_source, primary_source
+    source1, source2, id_start, id_end = slot_start_args
+    src1 = @manager.get_source source1
+    src2 = source2.nil? ? src1 : @manager.get_source(source2)
+    return src1, src2
   end
 
-  def success_message(results)
+  def slot_start_args
+    return [nil,nil,nil,nil] if @args.blank?
+
+    source2 = id_start = id_end = nil
+    source1 = @args[0].downcase
+    begin
+      id_start = Integer(@args[1])
+      id_end = Integer(@args[2]) if @args.length > 2
+    rescue
+      source2 = @args[1].downcase
+      id_start = Integer(@args[2]) if @args.length > 2
+      id_end = Integer(@args[3]) if @args.length > 3
+    end
+
+    [source1, source2, id_start, id_end]
+  end
+
+  def success_message
     case @type
       when SLOT_CREATE
         'Slots created successfully'
       when SLOT_START
-        expand_ids.map { |id| @transcoder.slot_link id }
+        'Slots started successfully'
       when SLOT_DELETE
         'Slots deleted successfully'
       when SLOT_STOP
@@ -159,8 +180,6 @@ class TranscoderCommand
         'Transcoder config saved successfully'
       when TRANSCODER_RESET
         'Transcoder reset successfully'
-      when TRANSCODER_STATUS
-        results.map { |result| result }
       else
         'success'
     end

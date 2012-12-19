@@ -1,5 +1,6 @@
 .row
-  = Time.now
+  %span.pull-right
+    = Time.now
   %table.table
     %thead
       %tr
@@ -7,8 +8,14 @@
         %th Result
     %tbody
       - @results.each do |command, result|
-        %tr
-          %td
+        %tr{:class => (result[:success]) ? 'success' : 'error'}
+          %td{:width => "200px;"}
             = command.cmd
           %td
-            = result
+            - if result[:success]
+              = result[:message]
+            - else
+              %dl
+                - result[:errors].each do |api_cmd, error|
+                  %dt= api_cmd
+                  %dd= error[:message]
