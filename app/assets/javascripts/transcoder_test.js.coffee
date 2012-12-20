@@ -21,7 +21,7 @@ register_handlers = () ->
   $('#clear-log').click ->
     $('#results').html('')
 
-  setInterval(refresh_status, 500)
+  setInterval(refresh_status, 2000)
 
 refresh_status = () ->
   $.get("/transcoder_test/status",
