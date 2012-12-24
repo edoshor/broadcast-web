@@ -1,5 +1,9 @@
+%span
+  %strong Host:
+  = @host
 - if @results.empty?
-  No slots defined
+  %span
+    No slots defined
 - else
   %table.table
     %tr

@@ -4,18 +4,6 @@ describe TranscoderManager do
 
   instance = TranscoderManager.instance
 
-
-  describe "#get_transcoder" do
-    it "is nil when unknown key" do
-      instance.get_transcoder('123').should be_nil
-    end
-
-    it "is requested transcoder" do
-      transcoder = instance.get_transcoder('main')
-      transcoder.should eq(Transcoder.find_by_key 'main')
-    end
-  end
-
   describe "#has_source?" do
     it "has known signal source" do
       instance.has_source?('source1').should == true

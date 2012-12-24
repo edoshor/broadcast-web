@@ -3,9 +3,9 @@ class Transcoder < ActiveRecord::Base
 
   # attributes
 
-  has_many :slot_presets, :dependent => :destroy
+  has_many :slot_presets, dependent: :destroy
 
-  attr_accessible :key, :host, :port
+  attr_accessible :host, :port
 
   attr_accessor :api
 

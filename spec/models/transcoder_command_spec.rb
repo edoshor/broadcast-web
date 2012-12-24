@@ -10,7 +10,7 @@ describe TranscoderCommand do
     end
 
     it "transcoder reset" do
-      TranscoderCommand.new("cmd", TranscoderCommand::TRANSCODER_RESET, [])
+      TranscoderCommand.new("cmd", TranscoderCommand::TRANSCODER_RESTART, [])
       .validate.should eq("valid")
     end
 
@@ -160,7 +160,7 @@ describe TranscoderCommand do
     it "is a correct reset command" do
       command = TranscoderCommand.create(" rEsEt ")
       command.cmd.should eq(" rEsEt ")
-      command.type.should eq(TranscoderCommand::TRANSCODER_RESET)
+      command.type.should eq(TranscoderCommand::TRANSCODER_RESTART)
       command.args.should be_empty
     end
 

@@ -1,10 +1,14 @@
 # Transcoders
 
-[{key: 'main', host: '10.65.6.104', port: 10000},
- {key: 'secondary', host: '10.65.6.103', port: 10000}]
-.each do |transcoder_def|
-  transcoder = Transcoder.find_or_create_by_key transcoder_def[:key]
-  transcoder.update_attributes transcoder_def
+[{host: '10.65.6.104', port: 10000, status_port: 11000, master: true, slave: false},
+{host: '10.65.6.103', port: 10000, status_port: 11000, master: false, slave: true}]
+.each do |details|
+  transcoder = Transcoder.find_or_create_by_host details[:host]
+  transcoder.port = details[:port]
+  transcoder.status_port = details[:status_port]
+  transcoder.master = details[:master]
+  transcoder.slave = details[:slave]
+  transcoder.save
 end
 
 # Signal sources
@@ -23,11 +27,11 @@ end
 preset_tracks = {
     preset1: [[1, 0, 0],
               [101, 1, 10]],
-    preset2: [[1, 0, 0],
+    preset2: [[2, 0, 0],
               [102, 1, 10]],
-    preset3: [[1, 0, 0],
+    preset3: [[3, 0, 0],
               [102, 1, 10]],
-    preset4: [[1, 0, 0],
+    preset4: [[4, 0, 0],
               [103, 1, 10]],
     tv66: [[1, 0, 0],
              [101, 1, 10],

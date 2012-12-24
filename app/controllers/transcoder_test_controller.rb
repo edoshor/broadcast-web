@@ -11,8 +11,8 @@ class TranscoderTestController < ApplicationController
     @validations = commands.map{|cmd| [cmd, cmd.validate]}
 
     if @validations.all? {|cmd, validation| 'valid'.eql? validation}
-      transcoder = TranscoderManager.instance.get_transcoder('main')
-      #transcoder.api = StubTranscoderApi.new(host: 'host', port: 'port')
+      transcoder = TranscoderManager.instance.master
+      #new_transcoder.api = StubTranscoderApi.new(host: 'host', port: 'port')
 
       @results = commands.map {|cmd| [cmd, cmd.execute(transcoder)]}
       render :partial => 'batch_results'
@@ -23,9 +23,43 @@ class TranscoderTestController < ApplicationController
 
 
   def status
-    transcoder = TranscoderManager.instance.get_transcoder('main')
+    transcoder = TranscoderManager.instance.master
     @results, @running = prepare_status_results transcoder.get_status
+    @host = transcoder.host
     render :partial => 'transcoder_status'
+  end
+
+  def change_transcoder
+    host = params[:ip]
+    render inline: "ip is blank" if host.blank?
+
+    # find or create by host
+    new_transcoder = Transcoder.find_or_create_by_host(host)
+
+    # change master or slave ?
+    master = params[:slave].blank? || params[:slave] != 'true'
+
+    if master
+      old_transcoder = TranscoderManager.instance.master
+      unless old_transcoder.host == host
+        old_transcoder.master = false
+        old_transcoder.save!
+        new_transcoder.master = true
+        new_transcoder.save!
+        TranscoderManager.instance.master = new_transcoder
+      end
+    else
+      old_transcoder = TranscoderManager.instance.slave
+      unless old_transcoder.host == host
+        old_transcoder.slave = false
+        old_transcoder.save!
+        new_transcoder.slave = true
+        new_transcoder.save!
+        TranscoderManager.instance.slave = new_transcoder
+      end
+    end
+
+    render inline: "Success. New #{master ? 'master' : 'slave'} transcoder for test is now #{host}"
   end
 
   private

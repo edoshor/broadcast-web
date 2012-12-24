@@ -4,8 +4,8 @@ class Preset < ActiveRecord::Base
 
   attr_accessible :name, :track_profiles_attributes, :track_mappings_attributes
 
-  has_many :track_profiles, :dependent => :destroy
-  has_many :track_mappings, :dependent => :destroy
+  has_many :track_profiles, dependent: :destroy
+  has_many :track_mappings, dependent: :destroy
 
   accepts_nested_attributes_for :track_profiles, :track_mappings
 
