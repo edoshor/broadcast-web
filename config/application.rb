@@ -59,6 +59,8 @@ module BroadcastWeb
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    config.assets.precompile += %w(transcoder_test.js transcoder_console.js)
+
     # JavaScript file_assets you want as :defaults (application.js is always included).
     config.action_view.javascript_expansions[:defaults] = %w(jquery.min rails)
 

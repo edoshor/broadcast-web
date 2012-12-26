@@ -11,7 +11,6 @@ class TranscoderManager
     @master = Transcoder.where(master: true).first!
     @slave = Transcoder.where(slave: true).first!
 
-    #raise 'master and slave are the same transcoder!' if @master == @slave
   end
 
   def has_source? (name)

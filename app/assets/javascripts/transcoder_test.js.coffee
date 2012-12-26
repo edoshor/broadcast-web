@@ -14,17 +14,19 @@ register_handlers = () ->
       $('#results').prepend(data)
       $('#ajax-loader').hide()
       $('#run_commands').removeAttr("disabled")
-      $('#results').effect('highlight', 'slow')
       false
     )
 
   $('#clear-log').click ->
     $('#results').html('')
 
-  setInterval(refresh_status, 2000)
-
 refresh_status = () ->
   $.get("/transcoder_test/status",
     (data) ->
       $('#status').html(data)
   )
+
+$(document).ready ->
+  setInterval(refresh_status, 2000)
+
+

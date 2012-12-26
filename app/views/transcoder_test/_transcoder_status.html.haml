@@ -36,6 +36,10 @@
             - if result[:signal] == 0
               %div
                 No signal
+          - else
+            %span
+              %strong Message:
+              = result[:message]
         %td
           %span{:class => "label #{(result[:running]) ? 'label-success' : 'label-important'}"}
             =result[:uptime]

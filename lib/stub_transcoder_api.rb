@@ -69,7 +69,7 @@ class StubTranscoderApi
   def mod_get_slot(slot_id)
     slot = @@slots[slot_id]
     error = slot.nil? ? RET_ERROR : RET_OK
-    ret = {func: 'mod_get_slot', error: error, message: get_error(response_code), command: 'command', response: 'response'}
+    ret = {func: 'mod_get_slot', error: error, message: get_error(error), command: 'command', response: 'response'}
 
     ret[:result] = {force: slot[:force], total_tracks: slot[:tracks_cnt], tracks: slot[:tracks]} if RET_OK == error
 

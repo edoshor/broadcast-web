@@ -17,7 +17,6 @@ register_handlers = () ->
       $('.response').show() if $('#show_response').is(':checked')
 
       $('#ajax-loader').hide()
-      $('#results').effect('highlight', 'slow')
 
       return false
     )
