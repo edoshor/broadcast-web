@@ -65,6 +65,7 @@ module BroadcastWeb
     config.action_view.javascript_expansions[:defaults] = %w(jquery.min rails)
 
     config.generators do |g|
+      g.template_engine :haml
       g.test_framework :rspec,
                        :fixtures => true,
                        :view_specs => false,
@@ -74,5 +75,37 @@ module BroadcastWeb
                        :request_specs => true
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
+
+    # Helper for loading deeply nested environment config.
+    def load_env(context, key, value)
+      if value.is_a?(Hash)
+        options = begin
+          context.send(key) || ActiveSupport::OrderedOptions.new
+        rescue
+          ActiveSupport::OrderedOptions.new
+        end
+
+        context.send("#{key}=", options)
+
+        value.each do |k, v|
+          load_env(options, k, v)
+        end
+      else
+        context.send("#{key}=", value)
+      end
+    end
+
+    # Load environment settings from yaml files.
+    ['config/environment.yml', "config/environments/#{Rails.env}.yml"].each do |path|
+      yml = File.exist?(path) ? YAML.load_file(Rails.root.join(path)) : nil
+      yml && yml.each do |key, value|
+        load_env(config, key, value)
+      end
+    end
   end
+
+  def self.config
+    Application.config
+  end
+
 end

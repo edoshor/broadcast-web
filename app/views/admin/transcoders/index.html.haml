@@ -1,0 +1,21 @@
+%h1 Transcoders
+.row
+  %table.table
+    %thead
+      %tr
+        %th Id
+        %th name
+        %th host
+        %th port
+        %th actions
+    %tbody
+      - @transcoders.each do |transcoder|
+        %tr
+          %td{:width => "50px;"}= transcoder['id']
+          %td= transcoder['name']
+          %td= transcoder['host']
+          %td= transcoder['port']
+          %td
+            = link_to 'Show', admin_transcoder_path(id: transcoder['id'])
+            = link_to 'Edit', edit_admin_transcoder_path(id: transcoder['id'])
+            -#= edit_admin_transcoder id: transcoder['id']

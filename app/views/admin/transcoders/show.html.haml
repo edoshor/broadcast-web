@@ -1,0 +1,20 @@
+%header.subhead#overview
+  %h2 Transcoder
+  -#.subnav
+  -#  %ul.nav.nav-pills
+  -#    -if can?(:update, @dictionary)
+  -#      %li
+  -#        = link_to "Edit", edit_admin_dictionary_path(@dictionary)
+  -#    -if can?(:destroy, @dictionary)
+  -#      %li
+  -#        = link_to "Destroy", admin_dictionary_path(@dictionary), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
+  -#    -if can?(:read, @dictionary)
+  -#      %li
+  -#        = link_to "View All", admin_dictionaries_path
+
+%section.well
+  -#= display_show_item('ID', .id)
+  -#= display_show_item('System name', @dictionary.suid)
+  -#= display_show_item('Created', @dictionary.created_at.to_s(:long_ordinal))
+  -#= display_show_item('Updated', @dictionary.updated_at.to_s(:long_ordinal))
+  -#= display_show_item('Total labels', @dictionary.labels.size)

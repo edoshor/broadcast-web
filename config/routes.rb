@@ -7,6 +7,12 @@ BroadcastWeb::Application.routes.draw do
   get "transcoder_test/status"
   get "transcoder_test/host",controller: :TranscoderTest, action: :change_transcoder
 
+  namespace :admin do
+
+    resources :transcoders
+
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
