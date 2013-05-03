@@ -1,22 +1,17 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.6'
+gem 'rails', '3.2.13'
 
 gem 'sqlite3'
-#gem 'mysql2', '>= 0.3'
 gem 'haml'
 #gem 'devise'
 gem 'thin'
 gem 'jquery-rails'
 gem 'bootstrap-sass', '~> 2.2.1.1'
 
-group :test, :development do
-  gem "rspec-rails", "~> 2.0"
-  #gem 'mocha', :require => false
-end
-
 group :test do
-  gem "shoulda-matchers"
+  gem 'rspec-rails', '~> 2.0'
+  gem 'shoulda-matchers'
   gem 'factory_girl_rails'
   gem 'simplecov', :require => false
   gem 'faker'
