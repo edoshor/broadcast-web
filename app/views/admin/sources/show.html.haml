@@ -1,0 +1,17 @@
+%header.subhead#overview
+  %h2
+    = "Source: #{ @source.name } "
+  .subnav
+    %ul.nav.nav-pills
+      -#%li
+        = link_to 'Edit', edit_admin_source_path(id: @source.id)
+      %li
+        = link_to 'Destroy', admin_source_path(id: @source.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
+      %li
+        = link_to 'View All', admin_sources_path
+
+%section.well
+  = display_show_item('ID', @source.id)
+  = display_show_item('Name', @source.name)
+  = display_show_item('Host', @source.host)
+  = display_show_item('Port', @source.port)

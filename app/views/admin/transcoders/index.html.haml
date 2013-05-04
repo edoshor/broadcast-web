@@ -1,21 +1,25 @@
 %h1 Transcoders
+%p
+  = link_to 'New Transcoder', new_admin_transcoder_path, :class => 'btn btn-success btn-large pull-right'
 .row
   %table.table
     %thead
       %tr
         %th Id
-        %th name
-        %th host
-        %th port
-        %th actions
+        %th Name
+        %th Host
+        %th Port
+        %th Status Port
+        %th Actions
     %tbody
-      - @transcoders.each do |transcoder|
+      - @transcoders.each do |txcoder|
         %tr
-          %td{:width => "50px;"}= transcoder['id']
-          %td= transcoder['name']
-          %td= transcoder['host']
-          %td= transcoder['port']
+          %td{:width => '50px;'}= txcoder.id
+          %td= txcoder.name
+          %td= txcoder.host
+          %td= txcoder.port
+          %td= txcoder.status_port
           %td
-            = link_to 'Show', admin_transcoder_path(id: transcoder['id'])
-            = link_to 'Edit', edit_admin_transcoder_path(id: transcoder['id'])
-            -#= edit_admin_transcoder id: transcoder['id']
+            = link_to 'Show', admin_transcoder_path(id: txcoder.id)
+            -#= link_to 'Edit', edit_admin_transcoder_path(id: transcoder['id'])
+            = link_to 'Destroy', admin_transcoder_path(id: txcoder.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
