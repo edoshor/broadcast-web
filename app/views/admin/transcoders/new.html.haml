@@ -1,0 +1,14 @@
+%header.subhead#overview
+  %h2 New Transcoder
+
+= simple_form_for [:admin, @transcoder], url: admin_transcoders_path, method: :post do |f|
+  = display_errors f
+  %hr.soften
+
+  = f.input :name, label: 'Display name'
+  = f.input :host, label: 'Host ip address'
+  = f.input :port, label: 'Binary api port'
+  = f.input :status_port, label: 'Load status port'
+
+  %hr.soften
+  = display_actions f, admin_transcoders_url

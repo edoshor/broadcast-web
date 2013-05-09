@@ -1,0 +1,18 @@
+%header.subhead#overview
+  %h2
+    = "Transcoder: #{ @transcoder.name } "
+  .subnav
+    %ul.nav.nav-pills
+      -#%li
+        = link_to 'Edit', edit_admin_transcoder_path(id: @transcoder.id)
+      %li
+        = link_to 'Destroy', admin_transcoder_path(id: @transcoder.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
+      %li
+        = link_to 'View All', admin_transcoders_path
+
+%section.well
+  = display_show_item('ID', @transcoder.id)
+  = display_show_item('Name', @transcoder.name)
+  = display_show_item('Host', @transcoder.host)
+  = display_show_item('Port', @transcoder.port)
+  = display_show_item('Status Port', @transcoder.status_port)

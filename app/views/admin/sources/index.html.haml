@@ -1,0 +1,23 @@
+%h1 Sources
+%p
+  = link_to 'New Source', new_admin_source_path, :class => 'btn btn-success btn-large pull-right'
+.row
+  %table.table
+    %thead
+      %tr
+        %th Id
+        %th Name
+        %th Host
+        %th Port
+        %th Actions
+    %tbody
+      - @sources.each do |source|
+        %tr
+          %td{:width => '50px;'}= source.id
+          %td= source.name
+          %td= source.host
+          %td= source.port
+          %td
+            = link_to 'Show', admin_source_path(id: source.id)
+            -#= link_to 'Edit', edit_admin_source_path(id: source.id)
+            = link_to 'Destroy', admin_source_path(id: source.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
