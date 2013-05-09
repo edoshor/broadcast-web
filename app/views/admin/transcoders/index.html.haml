@@ -22,4 +22,5 @@
           %td
             = link_to 'Show', admin_transcoder_path(id: txcoder.id)
             -#= link_to 'Edit', edit_admin_transcoder_path(id: transcoder['id'])
-            = link_to 'Destroy', admin_transcoder_path(id: txcoder.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
+            = link_to 'Destroy', admin_transcoder_path(id: txcoder.id), :class => 'label label-important',
+              :confirm => 'This will remove statistics as well. Are you sure?', :method => :delete

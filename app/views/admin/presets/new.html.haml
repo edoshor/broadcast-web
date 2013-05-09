@@ -1,0 +1,11 @@
+%header.subhead#overview
+  %h2 New Preset
+
+= simple_form_for [:admin, @preset], url: admin_presets_path, method: :post do |f|
+  = display_errors f
+  %hr.soften
+
+  = f.input :name, label: 'Display name'
+
+  %hr.soften
+  = display_actions f, admin_presets_url

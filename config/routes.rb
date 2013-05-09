@@ -11,6 +11,7 @@ BroadcastWeb::Application.routes.draw do
 
     resources :transcoders
     resources :sources
+    resources :presets
 
   end
 
