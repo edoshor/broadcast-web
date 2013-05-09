@@ -7,7 +7,15 @@ gem 'haml'
 #gem 'devise'
 gem 'thin'
 gem 'jquery-rails'
-gem 'bootstrap-sass', '~> 2.2.1.1'
+gem 'bootstrap-sass', '~> 2.3.1.0'
+gem 'faraday'
+gem 'simple_form'
+gem 'active_attr'
+
+group :development do
+  gem 'better_errors'
+  #gem 'binding_of_caller'
+end
 
 group :test do
   gem 'rspec-rails', '~> 2.0'
