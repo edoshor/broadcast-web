@@ -6,7 +6,8 @@
       -#%li
         = link_to 'Edit', edit_admin_transcoder_path(id: @transcoder.id)
       %li
-        = link_to 'Destroy', admin_transcoder_path(id: @transcoder.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
+        = link_to 'Destroy', admin_transcoder_path(id: @transcoder.id), :class => 'label label-important',
+        :confirm => 'This will remove statistics as well. Are you sure?', :method => :delete
       %li
         = link_to 'View All', admin_transcoders_path
 
@@ -16,3 +17,16 @@
   = display_show_item('Host', @transcoder.host)
   = display_show_item('Port', @transcoder.port)
   = display_show_item('Status Port', @transcoder.status_port)
+
+%section
+  %strong Slots:
+  %table.table.table-striped.table-bordered.table-condensed
+    %thead
+      %tr
+        %th Slot_id
+        %th Scheme
+    %tbody
+      - @slots.each do |s|
+        %tr
+          %td= s.slot_id
+          %td= s.scheme_name
