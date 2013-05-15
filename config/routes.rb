@@ -64,7 +64,7 @@ BroadcastWeb::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'transcoder_test#index'
+  root :to => 'transcoder_console#index'
 
   # See how all your routes lay out with "rake routes"
 

@@ -19,7 +19,9 @@ class Admin::PresetsController < ApplicationController
   end
 
   def create
-    tm_post('/presets', params[:tm_preset].to_hash) do |resp|
+    atts = {name: params[:tm_preset][:name],
+      tracks: JSON.parse(params[:tm_preset][:tracks])}
+    tm_post('/presets', atts) do |resp|
       redirect_to admin_presets_url, notice: 'Preset created successfully'
     end
   end
