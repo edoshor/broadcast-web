@@ -8,9 +8,15 @@ class Admin::PresetsController < ApplicationController
 
   def show
     tm_get("/presets/#{params[:id]}") do |resp|
+      @json = resp.body
       body = JSON.parse(resp.body)
       @preset = TMPreset.new(body)
       @tracks = body['tracks'].map { |track| TMTrack.new(track)}
+    end
+
+    respond_to do |format|
+      format.html # show.html.haml
+      format.json { render json: @json }
     end
   end
 

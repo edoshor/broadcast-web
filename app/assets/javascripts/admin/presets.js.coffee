@@ -6,8 +6,8 @@ window.bb.remove_track = (row_id) ->
 
 window.bb.redraw_tracks_table = () ->
   table = $('#tracksTable>tbody')
-  tracks = $('#tracksTable').data('tracks')
   table.empty()
+  tracks = $('#tracksTable').data('tracks')
   for track, i in tracks
     row = "<tr>"
     row += "<td> #{ track.num_channels } </td>"

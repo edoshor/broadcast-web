@@ -1,0 +1,31 @@
+%header.subhead#overview
+  %h2 New Scheme
+
+= simple_form_for [:admin, @scheme], url: admin_schemes_path, method: :post do |f|
+  = display_errors f
+  %hr.soften
+
+  .row
+    %div.span6
+      = f.input :name, label: 'Display name'
+
+      = f.input :src1_id, label: 'Source 1', collection: @sources, hint: 'Primary input source',
+        label_method: lambda {|s| s.name}, value_method: lambda {|s| s.id}
+
+      = f.input :src2_id, label: 'Source 2', collection: @sources, hint: 'Secondary input source',
+        label_method: lambda {|s| s.name}, value_method: lambda {|s| s.id}
+
+    %div.span12
+      = f.input :preset_id, collection: @presets,
+        label_method: lambda {|p| p.name}, value_method: lambda {|p| p.id}
+
+      %strong Audio mappings
+      %table#mappingsTable.table.table-bordered.table-condensed
+        %thead
+          %tr
+            %th Preset track
+            %th Audio Channel
+        %tbody
+
+  %hr.soften
+  = display_actions f, admin_presets_url
