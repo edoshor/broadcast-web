@@ -36,15 +36,17 @@
       %tr
         %th Slot_id
         %th Scheme
+        %th Link
         %th State
         %th{colspan: 2, width: '120px'} Actions
     %tbody
       - @slots.each do |s|
         %tr
-          %td{width: '50px'}= s.slot_id
+          %td{width: '25px'}= s.slot_id
           %td{width: '100px'}= s.scheme_name
+          %td{width: '70px'}= link_to "http://#{@transcoder.host}:#{8000 + s.slot_id}" , '#'
           %td{id: "slot_state_#{s.slot_id}", width: '250px'}
-          %td{id: "slot_actions_#{s.slot_id}", width: '60px'}
+          %td{id: "slot_action_#{s.slot_id}", width: '60px'}
           %td{width: '60px'}= link_to 'delete', delete_slot_admin_transcoder_path(slot_id: s.id), :class => 'label label-important',:method => :delete
 
 %div#slotModal.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'slot label', :'aria-hidden' => 'true'}
@@ -73,3 +75,5 @@
       %button#slotModalSave.btn.btn-primary
         Save
 
+:javascript
+  bb.show_transcoder(#{ @transcoder.id });

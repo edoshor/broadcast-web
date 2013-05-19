@@ -13,6 +13,8 @@ BroadcastWeb::Application.routes.draw do
       member do
         get :action
         get :create_slot
+        get :start_slot
+        get :stop_slot
         get :slots_status
         delete :delete_slot
       end

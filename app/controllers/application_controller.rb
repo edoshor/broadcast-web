@@ -30,8 +30,7 @@ class ApplicationController < ActionController::Base
     if resp.success?
       block.call(resp)
     else
-      flash[:error] = resp.body
-      redirect_to failure_url
+      redirect_to(failure_url, alert: resp.body)
     end
   end
 
@@ -39,8 +38,7 @@ class ApplicationController < ActionController::Base
     begin
       yield
     rescue => error
-      flash[:error] = "Transcoder Manager error: #{ error.message }"
-      redirect_to root_url
+      redirect_to(root_url, alert: "Transcoder Manager error: #{ error.message }")
     end
   end
 end

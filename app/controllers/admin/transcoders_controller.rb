@@ -35,11 +35,9 @@ class Admin::TranscodersController < ApplicationController
   end
 
   def action
-    resp = wrap_error { api.get "/transcoders/#{params[:id]}/#{params[:command]}" }
-    if resp.success?
-      redirect_to({ action: :show, id: params[:id] }, notice: resp.body)
-    else
-      redirect_to({ action: :show, id: params[:id] }, alert: resp.body)
+    redirect_options = {action: :show, id: params[:id]}
+    tm_get("/transcoders/#{params[:id]}/#{params[:command]}", redirect_options) do |resp|
+      redirect_to(redirect_options, notice: resp.body)
     end
   end
 
@@ -48,20 +46,30 @@ class Admin::TranscodersController < ApplicationController
         slot_id: params[:slot_id],
         scheme_id: params[:scheme_id]
     }
-    resp = wrap_error { api.post "/transcoders/#{params[:id]}/slots", atts }
-    if resp.success?
-      redirect_to({ action: :show, id: params[:id] }, notice: 'Slot created successfully')
-    else
-      redirect_to({ action: :show, id: params[:id] }, alert: resp.body)
+    redirect_options = {action: :show, id: params[:id]}
+    tm_post("/transcoders/#{params[:id]}/slots", atts, redirect_options) do |resp|
+      redirect_to(redirect_options, notice: 'Slot created successfully')
     end
   end
 
   def delete_slot
-    resp = wrap_error { api.delete "/transcoders/#{params[:id]}/slots/#{params[:slot_id]}" }
-    if resp.success?
-      redirect_to({ action: :show, id: params[:id] }, notice: 'Slot deleted successfully')
-    else
-      redirect_to({ action: :show, id: params[:id] }, alert: resp.body)
+    redirect_options = {action: :show, id: params[:id]}
+    tm_delete("/transcoders/#{params[:id]}/slots/#{params[:slot_id]}", redirect_options) do |resp|
+      redirect_to(redirect_options, notice: 'Slot deleted successfully')
+    end
+  end
+
+  def start_slot
+    redirect_options = {action: :show, id: params[:id]}
+    tm_get("/transcoders/#{params[:id]}/slots/#{params[:slot_id]}/start", redirect_options) do |resp|
+      redirect_to redirect_options
+    end
+  end
+
+  def stop_slot
+    redirect_options = {action: :show, id: params[:id]}
+    tm_get("/transcoders/#{params[:id]}/slots/#{params[:slot_id]}/stop", redirect_options) do |resp|
+      redirect_to redirect_options
     end
   end
 
