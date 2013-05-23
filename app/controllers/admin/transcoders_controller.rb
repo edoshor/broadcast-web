@@ -10,7 +10,7 @@ class Admin::TranscodersController < ApplicationController
     tm_get("/transcoders/#{params[:id]}") do |resp|
       @transcoder = TMTranscoder.new(JSON.parse(resp.body))
       tm_get("/transcoders/#{params[:id]}/slots") do |resp2|
-        @slots = JSON.parse(resp2.body).map { |atts| TMSlot.new(atts) }
+        @slots = JSON.parse(resp2.body).map { |atts| TMSlot.new(atts) }.sort
       end
       tm_get('/schemes') do |resp|
         @schemes = JSON.parse(resp.body).map { |atts| TMScheme.new(atts) }
