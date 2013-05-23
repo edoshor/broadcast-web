@@ -31,13 +31,13 @@ class Admin::SchemesController < ApplicationController
         preset_id: params[:tm_scheme][:preset_id],
         audio_mappings: params[:tm_scheme][:audio_mappings]
     }
-    tm_post('/schemes', atts) do |resp|
+    tm_post('/schemes', atts) do
       redirect_to admin_schemes_url, notice: 'Scheme created successfully'
     end
   end
 
   def destroy
-    tm_delete("/schemes/#{ params[:id] }") do |resp|
+    tm_delete("/schemes/#{ params[:id] }") do
       redirect_to admin_schemes_url, notice: 'Scheme deleted successfully'
     end
   end

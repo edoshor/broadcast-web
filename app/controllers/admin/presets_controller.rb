@@ -25,15 +25,17 @@ class Admin::PresetsController < ApplicationController
   end
 
   def create
-    atts = {name: params[:tm_preset][:name],
-      tracks: JSON.parse(params[:tm_preset][:tracks])}
-    tm_post('/presets', atts) do |resp|
+    atts = {
+        name: params[:tm_preset][:name],
+        tracks: JSON.parse(params[:tm_preset][:tracks])
+    }
+    tm_post('/presets', atts) do
       redirect_to admin_presets_url, notice: 'Preset created successfully'
     end
   end
 
   def destroy
-    tm_delete("/presets/#{ params[:id] }") do |resp|
+    tm_delete("/presets/#{ params[:id] }") do
       redirect_to admin_presets_url, notice: 'Preset deleted successfully'
     end
   end

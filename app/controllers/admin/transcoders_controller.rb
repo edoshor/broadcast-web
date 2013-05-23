@@ -9,8 +9,8 @@ class Admin::TranscodersController < ApplicationController
   def show
     tm_get("/transcoders/#{params[:id]}") do |resp|
       @transcoder = TMTranscoder.new(JSON.parse(resp.body))
-      tm_get("/transcoders/#{params[:id]}/slots") do |resp2|
-        @slots = JSON.parse(resp2.body).map { |atts| TMSlot.new(atts) }.sort
+      tm_get("/transcoders/#{params[:id]}/slots") do |resp|
+        @slots = JSON.parse(resp.body).map { |atts| TMSlot.new(atts) }.sort
       end
       tm_get('/schemes') do |resp|
         @schemes = JSON.parse(resp.body).map { |atts| TMScheme.new(atts) }
@@ -23,13 +23,13 @@ class Admin::TranscodersController < ApplicationController
   end
 
   def create
-    tm_post('/transcoders', params[:tm_transcoder].to_hash) do |resp|
+    tm_post('/transcoders', params[:tm_transcoder].to_hash) do
       redirect_to admin_transcoders_url, notice: 'Transcoder created successfully'
     end
   end
 
   def destroy
-    tm_delete("/transcoders/#{ params[:id] }") do |resp|
+    tm_delete("/transcoders/#{ params[:id] }") do
       redirect_to admin_transcoders_url, notice: 'Transcoder deleted successfully'
     end
   end
@@ -47,28 +47,28 @@ class Admin::TranscodersController < ApplicationController
         scheme_id: params[:scheme_id]
     }
     redirect_options = {action: :show, id: params[:id]}
-    tm_post("/transcoders/#{params[:id]}/slots", atts, redirect_options) do |resp|
+    tm_post("/transcoders/#{params[:id]}/slots", atts, redirect_options) do
       redirect_to(redirect_options, notice: 'Slot created successfully')
     end
   end
 
   def delete_slot
     redirect_options = {action: :show, id: params[:id]}
-    tm_delete("/transcoders/#{params[:id]}/slots/#{params[:slot_id]}", redirect_options) do |resp|
+    tm_delete("/transcoders/#{params[:id]}/slots/#{params[:slot_id]}", redirect_options) do
       redirect_to(redirect_options, notice: 'Slot deleted successfully')
     end
   end
 
   def start_slot
     redirect_options = {action: :show, id: params[:id]}
-    tm_get("/transcoders/#{params[:id]}/slots/#{params[:slot_id]}/start", redirect_options) do |resp|
+    tm_get("/transcoders/#{params[:id]}/slots/#{params[:slot_id]}/start", redirect_options) do
       redirect_to redirect_options
     end
   end
 
   def stop_slot
     redirect_options = {action: :show, id: params[:id]}
-    tm_get("/transcoders/#{params[:id]}/slots/#{params[:slot_id]}/stop", redirect_options) do |resp|
+    tm_get("/transcoders/#{params[:id]}/slots/#{params[:slot_id]}/stop", redirect_options) do
       redirect_to redirect_options
     end
   end
