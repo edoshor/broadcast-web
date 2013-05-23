@@ -43,7 +43,7 @@
       - @slots.each do |s|
         %tr
           %td{width: '25px'}= s.slot_id
-          %td{width: '100px'}= s.scheme_name
+          %td{width: '100px'}= link_to s.scheme_name, admin_scheme_path(id: s.scheme_id)
           %td{width: '70px'}= link_to "http://#{@transcoder.host}:#{8000 + s.slot_id}" , '#'
           %td{id: "slot_state_#{s.slot_id}", width: '250px'}
           %td{id: "slot_action_#{s.slot_id}", width: '60px'}
