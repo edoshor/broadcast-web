@@ -1,0 +1,19 @@
+%h1 Schemes
+%p
+  = link_to 'New Scheme', new_admin_scheme_path, :class => 'btn btn-success btn-large pull-right'
+.row
+  %table.table
+    %thead
+      %tr
+        %th Id
+        %th Name
+        %th Actions
+    %tbody
+      - @schemes.each do |scheme|
+        %tr
+          %td{:width => '50px;'}= scheme.id
+          %td= scheme.name
+          %td
+            = link_to 'Show', admin_scheme_path(id: scheme.id)
+            -#= link_to 'Edit', edit_admin_scheme_path(id: scheme.id)
+            = link_to 'Destroy', admin_scheme_path(id: scheme.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

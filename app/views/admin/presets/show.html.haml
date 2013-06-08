@@ -1,6 +1,6 @@
 %header.subhead#overview
   %h2
-    = "Preset: #{ @preset.name } "
+    = "Preset: #{ @preset.name }"
   .subnav
     %ul.nav.nav-pills
       -#%li
@@ -13,21 +13,20 @@
 %section.well
   = display_show_item('ID', @preset.id)
   = display_show_item('Name', @preset.name)
+  = display_show_item('Number of Tracks', @tracks.length)
 
-%section
+%section.span9
   %strong Tracks:
   %table.table.table-striped.table-bordered.table-condensed
     %thead
       %tr
-        %th ID
-        %th Gain
         %th Channels
         %th Profile
+        %th Gain
     %tbody
       - @tracks.each do |t|
         %tr
-          %td= t.id
+          %td= t.human_num_channels
+          %td= t.human_profile_number
           %td= t.gain
-          %td= t.num_channels
-          %td= t.profile_number
 

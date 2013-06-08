@@ -8,9 +8,15 @@ class Admin::PresetsController < ApplicationController
 
   def show
     tm_get("/presets/#{params[:id]}") do |resp|
+      @json = resp.body
       body = JSON.parse(resp.body)
       @preset = TMPreset.new(body)
       @tracks = body['tracks'].map { |track| TMTrack.new(track)}
+    end
+
+    respond_to do |format|
+      format.html # show.html.haml
+      format.json { render json: @json }
     end
   end
 
@@ -19,13 +25,17 @@ class Admin::PresetsController < ApplicationController
   end
 
   def create
-    tm_post('/presets', params[:tm_preset].to_hash) do |resp|
+    atts = {
+        name: params[:tm_preset][:name],
+        tracks: JSON.parse(params[:tm_preset][:tracks])
+    }
+    tm_post('/presets', atts) do
       redirect_to admin_presets_url, notice: 'Preset created successfully'
     end
   end
 
   def destroy
-    tm_delete("/presets/#{ params[:id] }") do |resp|
+    tm_delete("/presets/#{ params[:id] }") do
       redirect_to admin_presets_url, notice: 'Preset deleted successfully'
     end
   end

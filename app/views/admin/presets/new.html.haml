@@ -6,6 +6,56 @@
   %hr.soften
 
   = f.input :name, label: 'Display name'
+  = f.hidden_field :tracks, value: ''
+
+  .row-fluid
+    %h3 Tracks
+    .span9
+      %p(align='right')
+        = link_to 'Add track', '#trackModal', class: 'btn btn-success btn-large pull-right', :'data-toggle' => 'modal'
+      %br
+      %br
+      %table#tracksTable.table.table-striped.table-bordered.table-condensed
+        %thead
+          %tr
+            %th Channels
+            %th Profile
+            %th Gain
+            %th Actions
+        %tbody
 
   %hr.soften
   = display_actions f, admin_presets_url
+
+%div#trackModal.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'track label', :'aria-hidden' => 'true'}
+  %div.modal-header
+    %button.close{type: 'button', :'data-dismiss' => 'modal', :'aria-hidden' => 'true'}
+      x
+    %h3 New Track
+  %div.modal-body
+    %form#trackForm.form-horizontal{action: ''}
+      %fieldset
+        %div.control-group
+          %label.control-label{for: 'trackModalChannels'}  Channels *
+          %div.controls
+            %select#trackModalChannels
+              %option{value: 0} video
+              %option{value: 1} audio
+        %div.control-group
+          %label.control-label{for: 'trackModalProfile'} Profile *
+          %div.controls
+            %input#trackModalProfile{type: 'text', value: '1'}
+            %span.help-block video: 0-100, audio: 101-255
+        %div.control-group
+          %label.control-label{for: 'trackModalGain'} Gain *
+          %div.controls
+            %input#trackModalGain{type: 'text', value: '0', disabled: true}
+            %span.help-block video: 0, audio: 0-50, 10 means no gain
+      %p
+        List of profiles is
+        %a{target: '_blank', href: 'https://docs.google.com/spreadsheet/ccc?key=0Ap_EBPYYVaW1dHUtaVBJbXB5MlJWM1ZWZWNydWxBbWc#gid=0'} here
+    %div.modal-footer
+      %button#trackModalSave.btn.btn-primary{:'data-dismiss' => 'modal'}
+        Save
+      %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => 'true'}
+        cancel

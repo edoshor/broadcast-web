@@ -17,13 +17,13 @@ class Admin::SourcesController < ApplicationController
   end
 
   def create
-    tm_post('/sources', params[:tm_source].to_hash) do |resp|
+    tm_post('/sources', params[:tm_source].to_hash) do
       redirect_to admin_sources_url, notice: 'Source created successfully'
     end
   end
 
   def destroy
-    tm_delete("/sources/#{ params[:id] }") do |resp|
+    tm_delete("/sources/#{ params[:id] }") do
       redirect_to admin_sources_url, notice: 'Source deleted successfully'
     end
   end

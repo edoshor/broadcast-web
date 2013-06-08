@@ -9,9 +9,19 @@ BroadcastWeb::Application.routes.draw do
 
   namespace :admin do
 
-    resources :transcoders
+    resources :transcoders do
+      member do
+        get :action
+        get :create_slot
+        get :start_slot
+        get :stop_slot
+        get :slots_status
+        delete :delete_slot
+      end
+    end
     resources :sources
     resources :presets
+    resources :schemes
 
   end
 
@@ -64,7 +74,7 @@ BroadcastWeb::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'transcoder_test#index'
+  root :to => 'transcoder_console#index'
 
   # See how all your routes lay out with "rake routes"
 

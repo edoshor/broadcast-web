@@ -27,6 +27,6 @@ refresh_status = () ->
   )
 
 $(document).ready ->
-  setInterval(refresh_status, 2000)
+#  setInterval(refresh_status, 2000)
 
 

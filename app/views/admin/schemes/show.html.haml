@@ -1,0 +1,19 @@
+%header.subhead#overview
+  %h2
+    = "Scheme: #{ @scheme.name } "
+  .subnav
+    %ul.nav.nav-pills
+      -#%li
+        = link_to 'Edit', edit_admin_scheme_path(id: @scheme.id)
+      %li
+        = link_to 'Destroy', admin_scheme_path(id: @scheme.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
+      %li
+        = link_to 'View All', admin_schemes_path
+
+%section.well
+  = display_show_item('ID', @scheme.id)
+  = display_show_item('Name', @scheme.name)
+  = display_show_item('Source 1', @scheme.src1_id ? link_to(@scheme.src1_name, admin_source_path(@scheme.src1_id)) : nil, true)
+  = display_show_item('Source 2', @scheme.src2_id ? link_to(@scheme.src2_name, admin_source_path(@scheme.src2_id)) : nil, true)
+  = display_show_item('Preset', link_to(@scheme.preset_name, admin_preset_path(@scheme.preset_id)), true)
+  = display_show_item('Audio mappings', @scheme.audio_mappings.map {|x| x.to_i})
