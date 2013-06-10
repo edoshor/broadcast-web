@@ -1,0 +1,75 @@
+%header.subhead#overview
+  %h2
+    = "Event: #{ @event.name }"
+  .subnav
+    %ul.nav.nav-pills
+      -#%li
+        = link_to 'Edit', edit_admin_event_path(id: @event.id)
+      %li
+        = link_to 'Destroy', admin_event_path(id: @event.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
+      %li
+        = link_to 'View All', admin_events_path
+
+.row
+  %div.span4
+    %section.well
+      = display_show_item('ID', @event.id)
+      = display_show_item('Name', @event.name)
+      = display_show_item('Number of Slots', @slots.length)
+
+  %div.span8.offset1
+    .row#event_status
+    .row
+      %button#event_start.btn.btn-large.btn-success
+        %i.icon-align-left.icon-play
+        Start
+      %button#event_stop.btn.btn-large.btn-danger
+        %i.icon-align-left.icon-stop
+        Stop
+
+%section
+  %h3 Slots:
+  %p
+    = link_to 'Add Slot', '#slotModal', class: 'btn btn-success btn-large pull-right', :'data-toggle' => 'modal'
+  %table.table.table-bordered.table-condensed
+    %thead
+      %tr
+        %th Transcoder
+        %th Slot id
+        %th Scheme
+        %th Actions
+    %tbody
+      - @slots.each do |s|
+        %tr
+          %td{width: '100px'}= link_to s.transcoder_name, admin_transcoder_path(id: s.transcoder_id)
+          %td{width: '25px'}= s.slot_id
+          %td{width: '100px'}= link_to s.scheme_name, admin_scheme_path(id: s.scheme_id)
+          %td{width: '60px'}= link_to 'remove', remove_slot_admin_event_path(slot_id: s.id), :class => 'label label-important',:method => :delete
+
+%div#slotModal.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'slot label', :'aria-hidden' => 'true'}
+  %form#slotForm.form-horizontal{action: add_slot_admin_event_path}
+    %div.modal-header
+      %button.close{type: 'button', :'data-dismiss' => 'modal', :'aria-hidden' => 'true'}
+        x
+      %h3 Add Slot
+    %div.modal-body
+      %fieldset
+        %div.control-group
+          %label.control-label{for: 'slotModalTranscoder'}  Transcoder
+          %div.controls
+            %select#slotModalTranscoder{name: 'tx_id'}
+              - @transcoders.each do |txcoder|
+                %option{value: txcoder.id}
+                  = txcoder.name
+        %div.control-group
+          %label.control-label{for: 'slotModalSlot'}  Slot
+          %div.controls
+            %select#slotModalSlot{name: 'slot_id'}
+    %div.modal-footer
+      %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => 'true'}
+        cancel
+      %button#slotModalSave.btn.btn-primary
+        Save
+
+:javascript
+  bb.show_event(#{ @event.id });

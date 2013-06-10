@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_response(resp, failure_url = :back, &block)
-    return if flash[:error]
+    return if flash[:alert]
 
     if resp.success?
       block.call(resp)
