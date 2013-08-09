@@ -24,12 +24,13 @@ class Admin::SchemesController < ApplicationController
   end
 
   def create
+    args = params[:tm_scheme]
     atts = {
-        name: params[:tm_scheme][:name],
-        source1_id: params[:tm_scheme][:src1_id],
-        source2_id: params[:tm_scheme][:src2_id],
-        preset_id: params[:tm_scheme][:preset_id],
-        audio_mappings: params[:tm_scheme][:audio_mappings]
+        name: args[:name],
+        source1_id: args[:src1_id],
+        source2_id: args[:src2_id],
+        preset_id: args[:preset_id],
+        audio_mappings: args[:audio_mappings]
     }
     tm_post('/schemes', atts) do
       redirect_to admin_schemes_url, notice: 'Scheme created successfully'

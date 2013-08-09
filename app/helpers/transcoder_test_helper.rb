@@ -1,3 +1,0 @@
-module TranscoderTestHelper
-
-end

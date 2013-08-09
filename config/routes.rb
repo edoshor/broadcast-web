@@ -9,6 +9,9 @@ BroadcastWeb::Application.routes.draw do
 
   namespace :admin do
 
+    resources :sources
+    resources :presets
+    resources :schemes
     resources :transcoders do
       member do
         get :action
@@ -16,12 +19,18 @@ BroadcastWeb::Application.routes.draw do
         get :start_slot
         get :stop_slot
         get :slots_status
+        get :get_slots
         delete :delete_slot
       end
     end
-    resources :sources
-    resources :presets
-    resources :schemes
+    resources :events do
+      member do
+        get :action
+        get :add_slot
+        get :status
+        delete :remove_slot
+      end
+    end
 
   end
 

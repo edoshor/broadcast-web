@@ -25,12 +25,18 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_response(resp, failure_url = :back, &block)
-    return if flash[:error]
+    return unless resp.is_a? Faraday::Response
 
     if resp.success?
       block.call(resp)
     else
-      redirect_to(failure_url, alert: resp.body)
+      if resp.headers['content-type'] =~ /.*application\/json.*/
+        body = JSON.parse(resp.body)
+        alert = body['error'] || body
+      else
+        alert = resp.body
+      end
+      redirect_to(failure_url, alert: alert)
     end
   end
 

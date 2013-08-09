@@ -1,0 +1,19 @@
+%h1 Events
+%p
+  = link_to 'New Event', new_admin_event_path, :class => 'btn btn-success btn-large pull-right'
+.row
+  %table.table
+    %thead
+      %tr
+        %th Id
+        %th Name
+        %th Actions
+    %tbody
+      - @events.each do |event|
+        %tr
+          %td{:width => '50px;'}= event.id
+          %td= event.name
+          %td
+            = link_to 'Show', admin_event_path(id: event.id)
+            -#= link_to 'Edit', edit_admin_event_path(id: event.id)
+            = link_to 'Destroy', admin_event_path(id: event.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

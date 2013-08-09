@@ -25,10 +25,13 @@ class Admin::PresetsController < ApplicationController
   end
 
   def create
+    args = params[:tm_preset]
+    args[:tracks] = '[]' if args[:tracks].empty?
     atts = {
-        name: params[:tm_preset][:name],
-        tracks: JSON.parse(params[:tm_preset][:tracks])
+        name: args[:name],
+        tracks: JSON.parse(args[:tracks])
     }
+
     tm_post('/presets', atts) do
       redirect_to admin_presets_url, notice: 'Preset created successfully'
     end
