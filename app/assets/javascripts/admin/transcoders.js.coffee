@@ -12,6 +12,7 @@ window.bb.call_slot_action = (s_id, action) ->
 refresh_status = () ->
   $.get("/admin/transcoders/#{bb.tx_id}/slots_status",
   (data) ->
+    $('#slots_message').hide()
     $.each(data, (i, status) ->
       statusHtml = 'Stopped';
       actionLink = '<button class=\"btn btn-success\"' +
@@ -28,5 +29,7 @@ refresh_status = () ->
       $('#slot_action_' + status.slot_id).html(actionLink)
     )
   , 'json'
-  )
+  ).fail (jqHXR, textStatus) ->
+    error = JSON.parse(jqHXR.responseText);
+    $('#slots_message').text(error['errors']).show()
 

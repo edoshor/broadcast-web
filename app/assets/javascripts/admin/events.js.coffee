@@ -33,12 +33,16 @@ refresh_status = () ->
 load_transcoder_slots = () ->
   $.get('/admin/transcoders/' + $('#slotModalTranscoder').val() + '/get_slots',
   (data) ->
+    $('#slots_message').hide()
     opts = ""
     $.each(data, (index) ->
       opts += '<option value="' + this.id + '">' + this.slot_id + ' - ' + this.scheme_name + '</option>'
     )
     $('#slotModalSlot').find('option').remove().end().append(opts)
-  ,'json')
+  ,'json'
+  ).fail (jqHXR, textStatus) ->
+    error = JSON.parse(jqHXR.responseText);
+    $('#slots_message').text(error['errors']).show()
 
 register_handlers = () ->
   $('#event_start').click ->

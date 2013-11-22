@@ -30,13 +30,21 @@ class ApplicationController < ActionController::Base
     if resp.success?
       block.call(resp)
     else
-      if resp.headers['content-type'] =~ /.*application\/json.*/
-        body = JSON.parse(resp.body)
-        alert = body['error'] || body
+      alert = extract_alert(resp)
+      if failure_url
+        redirect_to(failure_url, alert: alert)
       else
-        alert = resp.body
+        block.call(resp, alert)
       end
-      redirect_to(failure_url, alert: alert)
+    end
+  end
+
+  def extract_alert(resp)
+    if resp.headers['content-type'] =~ /.*application\/json.*/
+      body = JSON.parse(resp.body)
+      body['error'] || body
+    else
+      resp.body
     end
   end
 

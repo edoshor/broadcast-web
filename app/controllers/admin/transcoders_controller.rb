@@ -74,26 +74,22 @@ class Admin::TranscodersController < ApplicationController
   end
 
   def get_slots
-    tm_get("/transcoders/#{params[:id]}/slots") do |resp|
-      @json = resp.body
-      @slots = JSON.parse resp.body
-    end
-
-    respond_to do |format|
-      format.html # show.html.haml
-      format.json { render json: @json }
+    tm_get("/transcoders/#{params[:id]}/slots", false) do |resp, alert|
+      if alert
+        render json: {errors: alert}, status: 422
+      else
+        render json: resp.body
+      end
     end
   end
 
   def slots_status
-    tm_get("/transcoders/#{params[:id]}/slots/status") do |resp|
-      @json = resp.body
-      @statuses = JSON.parse resp.body
-    end
-
-    respond_to do |format|
-      format.html # show.html.haml
-      format.json { render json: @json }
+    tm_get("/transcoders/#{params[:id]}/slots/status", false) do |resp, alert|
+      if alert
+        render json: {errors: alert}, status: 422
+      else
+        render json: resp.body
+      end
     end
   end
 
