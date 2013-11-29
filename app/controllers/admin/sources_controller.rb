@@ -1,4 +1,4 @@
-class Admin::SourcesController < ApplicationController
+class Admin::SourcesController < TranscoderManagerController
 
   def index
     tm_get('/sources') do |resp|
@@ -14,6 +14,9 @@ class Admin::SourcesController < ApplicationController
 
   def new
     @source = TMSource.new
+    tm_get('/captures') do |resp|
+      @captures = JSON.parse(resp.body).map { |atts| TMCapture.new(atts) }
+    end
   end
 
   def create

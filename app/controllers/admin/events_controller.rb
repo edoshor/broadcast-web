@@ -1,4 +1,4 @@
-class Admin::EventsController < ApplicationController
+class Admin::EventsController < TranscoderManagerController
 
   def index
     tm_get('/events') do |resp|

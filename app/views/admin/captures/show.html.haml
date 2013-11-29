@@ -1,0 +1,20 @@
+%header.subhead#overview
+  %h2
+    = "Capture: #{ @capture.name } "
+  .subnav
+    %ul.nav.nav-pills
+      -#%li
+        = link_to 'Edit', edit_admin_capture_path(id: @capture.id)
+      %li
+        = link_to 'Destroy', admin_capture_path(id: @capture.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
+      %li
+        = link_to 'View All', admin_captures_path
+
+%section.well
+  = display_show_item('ID', @capture.id)
+  = display_show_item('Name', @capture.name)
+  = display_show_item('Host', @capture.host)
+  = display_show_item('Input1', @capture.input1)
+  = display_show_item('Input2', @capture.input2)
+  = display_show_item('Input3', @capture.input3)
+  = display_show_item('Input4', @capture.input4)

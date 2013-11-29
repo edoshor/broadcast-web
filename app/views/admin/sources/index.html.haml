@@ -7,16 +7,16 @@
       %tr
         %th Id
         %th Name
-        %th Host
-        %th Port
+        %th Capture
+        %th Input
         %th Actions
     %tbody
       - @sources.each do |source|
         %tr
           %td{:width => '50px;'}= source.id
           %td= source.name
-          %td= source.host
-          %td= source.port
+          %td= link_to source.capture_name, admin_capture_path(id: source.capture_id)
+          %td= source.input
           %td
             = link_to 'Show', admin_source_path(id: source.id)
             -#= link_to 'Edit', edit_admin_source_path(id: source.id)

@@ -9,6 +9,7 @@ BroadcastWeb::Application.routes.draw do
 
   namespace :admin do
 
+    resources :captures
     resources :sources
     resources :presets
     resources :schemes

@@ -3,9 +3,10 @@ class TMSource
 
   attribute :id
   attribute :name
-  attribute :host, default: '192.168.1.2'
-  attribute :port, default: 3000
+  attribute :capture_id
+  attribute :capture_name
+  attribute :input
 
-  validates_presence_of :name, :host, :port
+  validates_presence_of :name
 
 end

@@ -6,8 +6,11 @@
   %hr.soften
 
   = f.input :name, label: 'Display name'
-  = f.input :host, label: 'Host ip address'
-  = f.input :port, label: 'port'
+
+  = f.input :capture_id, label: 'Capture', collection: @captures,
+          label_method: lambda {|c| c.name}, value_method: lambda {|c| c.id}
+
+  = f.input :input, label: 'Input', collection: (1..4)
 
   %hr.soften
   = display_actions f, admin_sources_url

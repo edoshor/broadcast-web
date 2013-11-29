@@ -1,4 +1,4 @@
-class Admin::PresetsController < ApplicationController
+class Admin::PresetsController < TranscoderManagerController
 
   def index
     tm_get('/presets') do |resp|

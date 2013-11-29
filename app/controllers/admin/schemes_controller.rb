@@ -1,4 +1,4 @@
-class Admin::SchemesController < ApplicationController
+class Admin::SchemesController < TranscoderManagerController
 
   def index
     tm_get('/schemes') do |resp|

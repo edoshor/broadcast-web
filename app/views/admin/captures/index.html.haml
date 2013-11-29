@@ -1,0 +1,29 @@
+%h1 Captures
+%p
+  = link_to 'New Capture', new_admin_capture_path, :class => 'btn btn-success btn-large pull-right'
+.row
+  %table.table
+    %thead
+      %tr
+        %th Id
+        %th Name
+        %th Host
+        %th Input1
+        %th Input2
+        %th Input3
+        %th Input4
+        %th Actions
+    %tbody
+      - @captures.each do |capture|
+        %tr
+          %td{:width => '50px;'}= capture.id
+          %td= capture.name
+          %td= capture.host
+          %td= capture.input1
+          %td= capture.input2
+          %td= capture.input3
+          %td= capture.input4
+          %td
+            = link_to 'Show', admin_capture_path(id: capture.id)
+            -#= link_to 'Edit', edit_admin_capture_path(id: capture.id)
+            = link_to 'Destroy', admin_capture_path(id: capture.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

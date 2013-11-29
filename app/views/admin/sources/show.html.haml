@@ -13,5 +13,5 @@
 %section.well
   = display_show_item('ID', @source.id)
   = display_show_item('Name', @source.name)
-  = display_show_item('Host', @source.host)
-  = display_show_item('Port', @source.port)
+  = display_show_item('Capture', link_to(@source.capture_name, admin_capture_path(@source.capture_id)), true)
+  = display_show_item('Input', @source.input)

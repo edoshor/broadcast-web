@@ -1,4 +1,4 @@
-class Admin::TranscodersController < ApplicationController
+class Admin::TranscodersController < TranscoderManagerController
 
   def index
     tm_get('/transcoders') do |resp|
@@ -9,11 +9,11 @@ class Admin::TranscodersController < ApplicationController
   def show
     tm_get("/transcoders/#{params[:id]}") do |resp|
       @transcoder = TMTranscoder.new(JSON.parse(resp.body))
-      tm_get("/transcoders/#{params[:id]}/slots") do |resp|
-        @slots = JSON.parse(resp.body).map { |atts| TMSlot.new(atts) }.sort
+      tm_get("/transcoders/#{params[:id]}/slots") do |r|
+        @slots = JSON.parse(r.body).map { |atts| TMSlot.new(atts) }.sort
       end
-      tm_get('/schemes') do |resp|
-        @schemes = JSON.parse(resp.body).map { |atts| TMScheme.new(atts) }
+      tm_get('/schemes') do |r|
+        @schemes = JSON.parse(r.body).map { |atts| TMScheme.new(atts) }
       end
     end
   end
@@ -75,21 +75,13 @@ class Admin::TranscodersController < ApplicationController
 
   def get_slots
     tm_get("/transcoders/#{params[:id]}/slots", false) do |resp, alert|
-      if alert
-        render json: {errors: alert}, status: 422
-      else
-        render json: resp.body
-      end
+      render_json_api_response resp, alert
     end
   end
 
   def slots_status
     tm_get("/transcoders/#{params[:id]}/slots/status", false) do |resp, alert|
-      if alert
-        render json: {errors: alert}, status: 422
-      else
-        render json: resp.body
-      end
+      render_json_api_response resp, alert
     end
   end
 

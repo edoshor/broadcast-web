@@ -1,0 +1,16 @@
+%header.subhead#overview
+  %h2 New Capture
+
+= simple_form_for [:admin, @capture], url: admin_captures_path, method: :post do |f|
+  = display_errors f
+  %hr.soften
+
+  = f.input :name, label: 'Display name'
+  = f.input :host, label: 'Host ip address'
+  = f.input :input1, label: 'input1'
+  = f.input :input2, label: 'input2'
+  = f.input :input3, label: 'input3'
+  = f.input :input4, label: 'input4'
+
+  %hr.soften
+  = display_actions f, admin_captures_url
