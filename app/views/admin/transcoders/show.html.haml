@@ -45,7 +45,7 @@
         %tr
           %td{width: '25px'}= s.slot_id
           %td{width: '100px'}= link_to s.scheme_name, admin_scheme_path(id: s.scheme_id)
-          %td{width: '70px'}= link_to "http://#{@transcoder.host}:#{8000 + s.slot_id}" , '#'
+          %td{width: '70px'}= "http://#{@transcoder.host}:#{8000 + s.slot_id}"
           %td{id: "slot_state_#{s.slot_id}", width: '250px'}
           %td{id: "slot_action_#{s.slot_id}", width: '60px'}
           %td{width: '60px'}= link_to 'delete', delete_slot_admin_transcoder_path(slot_id: s.id), :class => 'label label-important',:method => :delete
