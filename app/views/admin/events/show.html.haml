@@ -10,8 +10,8 @@
       %li
         = link_to 'View All', admin_events_path
 
-.row
-  %div.span4
+.row-fluid
+  %div.span3
     %section.well
       = display_show_item('ID', @event.id)
       = display_show_item('Name', @event.name)
@@ -28,23 +28,28 @@
         Stop
 
 %section
-  %h3 Slots:
-  %p
-    = link_to 'Add Slot', '#slotModal', class: 'btn btn-success btn-large pull-right', :'data-toggle' => 'modal'
-  %table.table.table-bordered.table-condensed
-    %thead
-      %tr
-        %th Transcoder
-        %th Slot id
-        %th Scheme
-        %th Actions
-    %tbody
-      - @slots.each do |s|
+  .row-fluid
+    .span2
+      %h3 Slots:
+    %span.pull-right
+      = link_to 'Add Slot', '#slotModal', class: 'btn btn-success btn-large', :'data-toggle' => 'modal'
+
+  .row-fluid
+    %table.table.table-bordered.table-condensed
+      %thead
         %tr
-          %td{width: '100px'}= link_to s.transcoder_name, admin_transcoder_path(id: s.transcoder_id)
-          %td{width: '25px'}= s.slot_id
-          %td{width: '100px'}= link_to s.scheme_name, admin_scheme_path(id: s.scheme_id)
-          %td{width: '60px'}= link_to 'remove', remove_slot_admin_event_path(slot_id: s.id), :class => 'label label-important',:method => :delete
+          %th Transcoder
+          %th Slot id
+          %th Scheme
+          %th Actions
+      %tbody
+        - @slots.each do |s|
+          %tr
+            %td{width: '100px'}= link_to s.transcoder_name, admin_transcoder_path(id: s.transcoder_id)
+            %td{width: '25px'}= s.slot_id
+            %td{width: '100px'}= link_to s.scheme_name, admin_scheme_path(id: s.scheme_id)
+            %td{width: '60px'}= link_to 'remove', remove_slot_admin_event_path(slot_id: s.id),
+            :class => 'label label-important',:method => :delete
 
 %div#slotModal.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'slot label', :'aria-hidden' => 'true'}
   %form#slotForm.form-horizontal{action: add_slot_admin_event_path}
