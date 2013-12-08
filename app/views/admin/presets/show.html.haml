@@ -10,23 +10,25 @@
       %li
         = link_to 'View All', admin_presets_path
 
-%section.well
-  = display_show_item('ID', @preset.id)
-  = display_show_item('Name', @preset.name)
-  = display_show_item('Number of Tracks', @tracks.length)
+.row-fluid
+  %div.span3
+    %section.well
+      = display_show_item('ID', @preset.id)
+      = display_show_item('Name', @preset.name)
+      = display_show_item('Number of Tracks', @tracks.length)
 
-%section.span9
-  %strong Tracks:
-  %table.table.table-striped.table-bordered.table-condensed
-    %thead
-      %tr
-        %th Channels
-        %th Profile
-        %th Gain
-    %tbody
-      - @tracks.each do |t|
+.row-fluid
+  .span9
+    %h3 Tracks:
+    %table.table.table-striped.table-bordered.table-condensed
+      %thead
         %tr
-          %td= t.human_num_channels
-          %td= t.human_profile_number
-          %td= t.gain
-
+          %th Channels
+          %th Profile
+          %th Gain
+      %tbody
+        - @tracks.each do |t|
+          %tr
+            %td= t.human_num_channels
+            %td= t.human_profile_number
+            %td= t.gain
