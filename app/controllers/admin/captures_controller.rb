@@ -2,7 +2,9 @@ class Admin::CapturesController < TranscoderManagerController
 
   def index
     tm_get('/captures') do |resp|
-      @captures = JSON.parse(resp.body).map { |atts| TMCapture.new(atts) }
+      @captures = JSON.parse(resp.body)
+      .map { |atts| TMCapture.new(atts) }
+      .sort_by! { |x| x.name }
     end
   end
 

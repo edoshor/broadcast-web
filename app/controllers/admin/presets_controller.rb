@@ -2,7 +2,9 @@ class Admin::PresetsController < TranscoderManagerController
 
   def index
     tm_get('/presets') do |resp|
-      @presets = JSON.parse(resp.body).map { |atts| TMPreset.new(atts) }
+      @presets = JSON.parse(resp.body)
+      .map { |atts| TMPreset.new(atts) }
+      .sort_by! { |x| x.name }
     end
   end
 
@@ -11,7 +13,7 @@ class Admin::PresetsController < TranscoderManagerController
       @json = resp.body
       body = JSON.parse(resp.body)
       @preset = TMPreset.new(body)
-      @tracks = body['tracks'].map { |track| TMTrack.new(track)}
+      @tracks = body['tracks'].map { |track| TMTrack.new(track) }
     end
 
     respond_to do |format|

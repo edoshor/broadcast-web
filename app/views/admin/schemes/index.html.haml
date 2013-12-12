@@ -5,13 +5,11 @@
   %table.table
     %thead
       %tr
-        %th Id
         %th Name
         %th Actions
     %tbody
       - @schemes.each do |scheme|
         %tr
-          %td{:width => '50px;'}= scheme.id
           %td= scheme.name
           %td
             = link_to 'Show', admin_scheme_path(id: scheme.id)

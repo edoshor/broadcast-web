@@ -5,7 +5,6 @@
   %table.table
     %thead
       %tr
-        %th Id
         %th Name
         %th Host
         %th Input1
@@ -16,7 +15,6 @@
     %tbody
       - @captures.each do |capture|
         %tr
-          %td{:width => '50px;'}= capture.id
           %td= capture.name
           %td= capture.host
           %td= capture.input1

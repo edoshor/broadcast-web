@@ -2,7 +2,9 @@ class Admin::SchemesController < TranscoderManagerController
 
   def index
     tm_get('/schemes') do |resp|
-      @schemes = JSON.parse(resp.body).map { |atts| TMScheme.new(atts) }
+      @schemes = JSON.parse(resp.body)
+      .map { |atts| TMScheme.new(atts) }
+      .sort_by! { |x| x.name }
     end
   end
 

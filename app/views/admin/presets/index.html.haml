@@ -5,13 +5,11 @@
   %table.table
     %thead
       %tr
-        %th Id
         %th Name
         %th Actions
     %tbody
       - @presets.each do |preset|
         %tr
-          %td{:width => '50px;'}= preset.id
           %td= preset.name
           %td
             = link_to 'Show', admin_preset_path(id: preset.id)

@@ -2,7 +2,9 @@ class Admin::EventsController < TranscoderManagerController
 
   def index
     tm_get('/events') do |resp|
-      @events = JSON.parse(resp.body).map { |atts| TMEvent.new(atts) }
+      @events = JSON.parse(resp.body)
+      .map { |atts| TMEvent.new(atts) }
+      .sort_by! { |x| x.name }
     end
   end
 

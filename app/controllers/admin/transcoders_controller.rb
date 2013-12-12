@@ -2,7 +2,9 @@ class Admin::TranscodersController < TranscoderManagerController
 
   def index
     tm_get('/transcoders') do |resp|
-      @transcoders = JSON.parse(resp.body).map { |atts| TMTranscoder.new(atts) }
+      @transcoders = JSON.parse(resp.body)
+      .map { |atts| TMTranscoder.new(atts) }
+      .sort_by! { |x| x.name }
     end
   end
 

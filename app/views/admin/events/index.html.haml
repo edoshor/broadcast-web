@@ -5,13 +5,11 @@
   %table.table
     %thead
       %tr
-        %th Id
         %th Name
         %th Actions
     %tbody
       - @events.each do |event|
         %tr
-          %td{:width => '50px;'}= event.id
           %td= event.name
           %td
             = link_to 'Show', admin_event_path(id: event.id)
