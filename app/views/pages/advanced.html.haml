@@ -1,0 +1,17 @@
+%h2 Configuration
+
+.row
+  .span8.offset1
+    %h3 Export
+    = link_to 'Export Configuration', "#{BroadcastWeb.config.tm_api_url}/export" ,class: 'btn'
+    %p Export configuration to JSON file.
+
+.row
+  .span8.offset1
+    %h3 Import
+    %form{method: 'POST',
+          action:"#{BroadcastWeb.config.tm_api_url}/import",
+          enctype:'multipart/form-data'}
+      %fieldset
+        %input{type:'file', name:'file'}
+        %button.btn{type:'submit'} Upload
