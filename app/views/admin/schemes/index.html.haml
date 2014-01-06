@@ -13,5 +13,7 @@
           %td= scheme.name
           %td
             = link_to 'Show', admin_scheme_path(id: scheme.id)
-            -#= link_to 'Edit', edit_admin_scheme_path(id: scheme.id)
+            \|
+            = link_to 'Edit', edit_admin_scheme_path(id: scheme.id)
+            \|
             = link_to 'Destroy', admin_scheme_path(id: scheme.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

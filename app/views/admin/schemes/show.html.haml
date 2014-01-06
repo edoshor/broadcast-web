@@ -3,12 +3,12 @@
     = "Scheme: #{ @scheme.name } "
   .subnav
     %ul.nav.nav-pills
-      -#%li
+      %li
         = link_to 'Edit', edit_admin_scheme_path(id: @scheme.id)
       %li
-        = link_to 'Destroy', admin_scheme_path(id: @scheme.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
-      %li
         = link_to 'View All', admin_schemes_path
+      %li
+        = link_to 'Destroy', admin_scheme_path(id: @scheme.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
 
 %section.well
   = display_show_item('ID', @scheme.id)

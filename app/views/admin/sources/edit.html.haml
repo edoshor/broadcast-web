@@ -1,0 +1,25 @@
+%header.subhead#overview
+  %h2 Edit Source
+
+= simple_form_for [:admin, @source], url: admin_source_path(id: @source.id), method: :put do |f|
+  = display_errors f
+  %hr.soften
+
+  = f.input :name, label: 'Display name'
+
+  = f.input :capture_id,
+    as: :select,
+    label: 'Capture',
+    collection: @captures,
+    label_method: lambda {|c| c.name},
+    value_method: lambda {|c| c.id},
+    include_blank: false
+
+  = f.input :input,
+    as: :select,
+    label: 'Input',
+    collection: (1..4),
+    include_blank: false
+
+  %hr.soften
+  = display_actions f, admin_source_path(id: @source.id)

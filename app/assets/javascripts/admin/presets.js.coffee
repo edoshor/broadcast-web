@@ -1,10 +1,10 @@
-window.bb ?= {} # create bb namespace if it doesn't already exist
+window.bb ?= {}
 
-window.bb.remove_track = (row_id) ->
+bb.remove_track = (row_id) ->
   $('#tracksTable').data('tracks').splice(row_id, 1)
   bb.redraw_tracks_table()
 
-window.bb.redraw_tracks_table = () ->
+bb.redraw_tracks_table = () ->
   table = $('#tracksTable>tbody')
   table.empty()
   tracks = $('#tracksTable').data('tracks')
@@ -16,20 +16,6 @@ window.bb.redraw_tracks_table = () ->
     row += "<td><a href='#' onclick='javascript:bb.remove_track(#{ i }); false;'>delete</a></td>"
     row += "</tr>"
     table.append(row)
-
-window.bb.humanize_channels = (channels) ->
-  if channels == '0' then 'video' else 'audio'
-
-window.bb.humanize_profile = (profile) ->
-  switch profile
-    when '1' then '320x240, 120Kbit'
-    when '2' then '360x270, 200Kbit'
-    when '3' then '640x480, 400Kbit'
-    when '4' then '720x540, 600Kbit'
-    when '101' then 'AAC, 32Kbit, mono'
-    when '102' then 'AAC, 48Kbit, mono'
-    when '103' then 'AAC, 96Kbit, stereo'
-    else profile
 
 register_handlers = () ->
   $('#tracksTable').data('tracks', [])

@@ -3,12 +3,12 @@
     = "Preset: #{ @preset.name }"
   .subnav
     %ul.nav.nav-pills
-      -#%li
+      %li
         = link_to 'Edit', edit_admin_preset_path(id: @preset.id)
       %li
-        = link_to 'Destroy', admin_preset_path(id: @preset.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
-      %li
         = link_to 'View All', admin_presets_path
+      %li
+        = link_to 'Destroy', admin_preset_path(id: @preset.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
 
 .row-fluid
   %div.span3

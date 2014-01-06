@@ -1,11 +1,12 @@
-window.bb ?= {} # create bb namespace if it doesn't already exist
+window.bb ?= {}
 
-window.bb.show_transcoder = (tx_id) ->
+bb.show_transcoder = (tx_id) ->
   if bb.show_transcoder_timer? then clearInterval(bb.show_transcoder_timer)
   bb.tx_id = tx_id
   bb.show_transcoder_timer = setInterval(refresh_status, 2000)
+  refresh_status()
 
-window.bb.call_slot_action = (s_id, action) ->
+bb.call_slot_action = (s_id, action) ->
   $.get("/admin/transcoders/#{bb.tx_id}/#{action}_slot?slot_id=#{s_id}");
   false
 

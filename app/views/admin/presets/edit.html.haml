@@ -1,0 +1,29 @@
+%header.subhead#overview
+  %h2 Edit Preset
+
+= simple_form_for [:admin, @preset], url: admin_preset_path(id: @preset.id), method: :put do |f|
+  = display_errors f
+  %hr.soften
+
+  = f.input :name, label: 'Display name'
+  = f.hidden_field :tracks, value: '[]'
+
+  .row-fluid
+    %h3 Tracks
+    %p Note that tracks can't change. Please create a new preset instead.
+    .span9
+      %table#tracksTable.table.table-striped.table-bordered.table-condensed
+        %thead
+          %tr
+            %th Channels
+            %th Profile
+            %th Gain
+        %tbody
+          - @tracks.each do |t|
+            %tr
+              %td= t.human_num_channels
+              %td= t.human_profile_number
+              %td= t.gain
+
+  %hr.soften
+  = display_actions f, admin_preset_path(id: @preset.id)

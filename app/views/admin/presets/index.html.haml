@@ -13,5 +13,7 @@
           %td= preset.name
           %td
             = link_to 'Show', admin_preset_path(id: preset.id)
-            -#= link_to 'Edit', edit_admin_preset_path(id: preset.id)
+            \|
+            = link_to 'Edit', edit_admin_preset_path(id: preset.id)
+            \|
             = link_to 'Destroy', admin_preset_path(id: preset.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

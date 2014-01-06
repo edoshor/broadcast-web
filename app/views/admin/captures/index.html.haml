@@ -23,5 +23,7 @@
           %td= capture.input4
           %td
             = link_to 'Show', admin_capture_path(id: capture.id)
-            -#= link_to 'Edit', edit_admin_capture_path(id: capture.id)
+            \|
+            = link_to 'Edit', edit_admin_capture_path(id: capture.id)
+            \|
             = link_to 'Destroy', admin_capture_path(id: capture.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

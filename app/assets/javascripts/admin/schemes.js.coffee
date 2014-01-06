@@ -1,28 +1,30 @@
-window.bb ?= {} # create bb namespace if it doesn't already exist
+window.bb ?= {}
+bb.editMode = false
 
-window.bb.draw_mappings_table = (preset) ->
-  table = $('#mappingsTable>tbody')
+bb.draw_mappings_table = (preset) ->
+  table = $('#mappingsTable').find('tbody')
   table.empty()
   for track, i in preset.tracks
     row = "<tr>"
-    row += "<td><b>Channels: </b> #{ track.num_channels }, "
-    row += "<b>Profile: </b> #{ track.profile_number }, "
-    row += "<b>Gain: </b> #{ track.gain }</td>"
-
-    row += "<td><input name='tm_scheme[audio_mappings][]'"
+    row += "<td> #{ bb.humanize_channels(track.num_channels) } </td>"
+    row += "<td> #{ bb.humanize_profile(track.profile_number) } </td>"
+    row += "<td>#{ track.gain }</td>"
     if track.num_channels == 0
-      row += "class='uneditable-input' value=0"
+      row += "<td><input type='hidden' name='tm_scheme[audio_mappings][]' value='0'/></td>"
     else
-      row += "class='string required'"
-
-    row += " /></td></tr>"
-
+      row += '<td><select id="tm_scheme_audio_mappings"' +
+      'class="select optional required"' +
+      'name="tm_scheme[audio_mappings][]"' +
+      'selected="selected">';
+      row += ("<option value='#{i}'>#{i}</option>" for i in [1..preset.tracks.length])
+      row += '</select></td>'
+    row += "</tr>"
     table.append(row)
+
 
 register_handlers = () ->
   $('#tm_scheme_preset_id').change ->
-    $('#tm_scheme_audio_mappings').val('')
-    $.get('../presets/' + $(this).val(), bb.draw_mappings_table, "json")
+    $.get('/admin/presets/' + $(this).val(), bb.draw_mappings_table, "json")
 
 $ ->
   register_handlers()

@@ -17,13 +17,32 @@ class Admin::SourcesController < TranscoderManagerController
   def new
     @source = TMSource.new
     tm_get('/captures') do |resp|
-      @captures = JSON.parse(resp.body).map { |atts| TMCapture.new(atts) }
+      @captures = JSON.parse(resp.body)
+      .map { |atts| TMCapture.new(atts) }
+      .sort_by! { |x| x.name }
     end
   end
 
   def create
     tm_post('/sources', params[:tm_source].to_hash) do
       redirect_to admin_sources_url, notice: 'Source created successfully'
+    end
+  end
+
+  def edit
+    tm_get("/sources/#{params[:id]}") do |resp|
+      @source = TMSource.new(JSON.parse(resp.body))
+    end
+    tm_get('/captures') do |resp|
+      @captures = JSON.parse(resp.body)
+      .map { |atts| TMCapture.new(atts) }
+      .sort_by! { |x| x.name }
+    end
+  end
+
+  def update
+    tm_put("/sources/#{params[:id]}", params[:tm_source].to_hash) do
+      redirect_to admin_source_path(id: params[:id]), notice: 'Source updated successfully'
     end
   end
 

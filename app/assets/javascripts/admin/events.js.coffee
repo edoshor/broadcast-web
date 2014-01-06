@@ -1,6 +1,6 @@
-window.bb ?= {} # create bb namespace if it doesn't already exist
+window.bb ?= {}
 
-window.bb.show_event = (event_id) ->
+bb.show_event = (event_id) ->
   if bb.show_event_timer? then clearInterval(bb.show_event_timer)
   bb.event_id = event_id
   bb.show_event_timer = setInterval(refresh_status, 2000)
@@ -56,4 +56,3 @@ register_handlers = () ->
 
 $ ->
   register_handlers()
-

@@ -17,5 +17,7 @@
           %td= source.input
           %td
             = link_to 'Show', admin_source_path(id: source.id)
-            -#= link_to 'Edit', edit_admin_source_path(id: source.id)
+            \|
+            = link_to 'Edit', edit_admin_source_path(id: source.id)
+            \|
             = link_to 'Destroy', admin_source_path(id: source.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

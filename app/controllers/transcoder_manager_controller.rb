@@ -18,6 +18,11 @@ class TranscoderManagerController < ApplicationController
     handle_response(resp, fail_redirect, &Proc.new)
   end
 
+  def tm_put(path, params={}, fail_redirect = :back)
+    resp = wrap_error { api.put path, params }
+    handle_response(resp, fail_redirect, &Proc.new)
+  end
+
   def tm_delete(path, fail_redirect = :back)
     resp = wrap_error { api.delete path }
     handle_response(resp, fail_redirect, &Proc.new)

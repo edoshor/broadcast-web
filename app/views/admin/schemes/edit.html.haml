@@ -1,9 +1,10 @@
 %div.page-header
-  %h2 New Scheme
+  %h2 Edit Scheme
 
 .row-fluid
   .span9
-    = simple_form_for [:admin, @scheme], url: admin_schemes_path, method: :post do |f|
+
+    = simple_form_for [:admin, @scheme], url: admin_scheme_path(id: @scheme.id), method: :put do |f|
       = display_errors f
 
       .row-fluid
@@ -34,7 +35,7 @@
             collection: @presets,
             label_method: lambda {|p| p.name},
             value_method: lambda {|p| p.id},
-            selected: @first_preset.id
+            include_blank: false
 
           %p Audio mappings
           %table#mappingsTable.table.table-bordered.table-condensed
@@ -45,7 +46,7 @@
                 %th Gain
                 %th Audio Channel
             %tbody
-              - @first_preset_tracks.each do |t|
+              - @current_preset_tracks.zip(@scheme.audio_mappings).each do |t, m|
                 %tr
                   %td= t.human_num_channels
                   %td= t.human_profile_number
@@ -56,14 +57,14 @@
                     -else
                       = f.input_field :audio_mappings,
                         as: :select,
-                        collection: (1..@first_preset_tracks.size),
+                        collection: (1..@scheme.audio_mappings.size),
                         name: 'tm_scheme[audio_mappings][]',
                         class: 'required',
-                        include_blank: false
+                        selected: m
 
       .row-fluid
-      %hr.soften
-      = display_actions f, admin_presets_url
+        %hr.soften
+        = display_actions f, admin_scheme_path(id: @scheme.id)
 
   .span3
     .well
@@ -72,4 +73,4 @@
         help is on the way for every form in the application
 
 :javascript
-  bb.editMode = false
+  bb.editMode = true
