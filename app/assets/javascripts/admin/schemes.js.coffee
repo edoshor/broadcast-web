@@ -16,7 +16,7 @@ bb.draw_mappings_table = (preset) ->
       'class="select optional required"' +
       'name="tm_scheme[audio_mappings][]"' +
       'selected="selected">';
-      row += ("<option value='#{i}'>#{i}</option>" for i in [1..preset.tracks.length])
+      row += ("<option value='#{i}'>#{i}</option>" for i in [0..preset.tracks.length-1])
       row += '</select></td>'
     row += "</tr>"
     table.append(row)

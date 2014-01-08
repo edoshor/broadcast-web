@@ -5,10 +5,9 @@ bb.remove_track = (row_id) ->
   bb.redraw_tracks_table()
 
 bb.redraw_tracks_table = () ->
-  table = $('#tracksTable>tbody')
+  table = $('#tracksTable').find('tbody')
   table.empty()
-  tracks = $('#tracksTable').data('tracks')
-  for track, i in tracks
+  for track, i in $('#tracksTable').data('tracks')
     row = "<tr>"
     row += "<td> #{ bb.humanize_channels(track.num_channels) } </td>"
     row += "<td> #{ bb.humanize_profile(track.profile_number) } </td>"
