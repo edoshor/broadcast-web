@@ -11,12 +11,14 @@ class Admin::TranscodersController < TranscoderManagerController
   def show
     tm_get("/transcoders/#{params[:id]}") do |resp|
       @transcoder = TMTranscoder.new(JSON.parse(resp.body))
-      tm_get("/transcoders/#{params[:id]}/slots") do |r|
-        @slots = JSON.parse(r.body).map { |atts| TMSlot.new(atts) }.sort
-      end
-      tm_get('/schemes') do |r|
-        @schemes = JSON.parse(r.body).map { |atts| TMScheme.new(atts) }
-      end
+    end
+    tm_get("/transcoders/#{params[:id]}/slots") do |r|
+      @slots = JSON.parse(r.body).map { |atts| TMSlot.new(atts) }.sort
+    end
+    tm_get('/schemes') do |r|
+      @schemes = JSON.parse(r.body)
+      .map { |atts| TMScheme.new(atts) }
+      .sort_by! { |x| x.name }
     end
   end
 
@@ -27,6 +29,18 @@ class Admin::TranscodersController < TranscoderManagerController
   def create
     tm_post('/transcoders', params[:tm_transcoder].to_hash) do
       redirect_to admin_transcoders_url, notice: 'Transcoder created successfully'
+    end
+  end
+
+  def edit
+    tm_get("/transcoders/#{params[:id]}") do |resp|
+      @transcoder = TMTranscoder.new(JSON.parse(resp.body))
+    end
+  end
+
+  def update
+    tm_put("/transcoders/#{params[:id]}", params[:tm_transcoder].to_hash) do
+      redirect_to admin_transcoder_path(id: params[:id]), notice: 'Transcoder updated successfully'
     end
   end
 

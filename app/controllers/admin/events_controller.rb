@@ -11,12 +11,14 @@ class Admin::EventsController < TranscoderManagerController
   def show
     tm_get("/events/#{params[:id]}") do |resp|
       @event = TMEvent.new(JSON.parse(resp.body))
-      tm_get("/events/#{params[:id]}/slots") do |resp|
-        @slots = JSON.parse(resp.body).map { |atts| TMSlot.new(atts) }.sort
-      end
-      tm_get('/transcoders') do |resp|
-        @transcoders = JSON.parse(resp.body).map { |atts| TMTranscoder.new(atts) }
-      end
+    end
+    tm_get("/events/#{params[:id]}/slots") do |resp|
+      @slots = JSON.parse(resp.body).map { |atts| TMSlot.new(atts) }.sort
+    end
+    tm_get('/transcoders') do |resp|
+      @transcoders = JSON.parse(resp.body)
+      .map { |atts| TMTranscoder.new(atts) }
+      .sort_by! { |x| x.name }
     end
   end
 
@@ -27,6 +29,18 @@ class Admin::EventsController < TranscoderManagerController
   def create
     tm_post('/events', params[:tm_event].to_hash) do
       redirect_to admin_events_url, notice: 'Event created successfully'
+    end
+  end
+
+  def edit
+    tm_get("/events/#{params[:id]}") do |resp|
+      @event = TMEvent.new(JSON.parse(resp.body))
+    end
+  end
+
+  def update
+    tm_put("/events/#{params[:id]}", params[:tm_event].to_hash) do
+      redirect_to admin_event_path(id: params[:id]), notice: 'Event updated successfully'
     end
   end
 
