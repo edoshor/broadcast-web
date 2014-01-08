@@ -1,17 +1,34 @@
-%h2 Configuration
+.container
+  .row
+    %h2 Configuration
+    %p Import / Export transcoder manager current configuration to local JSON file.
+    %hr
 
-.row
-  .span8.offset1
-    %h3 Export
-    = link_to 'Export Configuration', "#{BroadcastWeb.config.tm_api_url}/export" ,class: 'btn'
-    %p Export configuration to JSON file.
+  .row-fluid
+    .span4
+      %h4 Export
+      %p Export configuration to JSON file.
+      = link_to 'Export Configuration', "#{BroadcastWeb.config.tm_api_url}/export" ,class: 'btn'
 
-.row
-  .span8.offset1
-    %h3 Import
-    %form{method: 'POST',
-          action:"#{BroadcastWeb.config.tm_api_url}/import",
-          enctype:'multipart/form-data'}
-      %fieldset
-        %input{type:'file', name:'file'}
-        %button.btn{type:'submit'} Upload
+    .span6
+      %h4 Import
+      %p Import configuration from JSON file.
+      %form{method: 'POST',
+            action:"#{BroadcastWeb.config.tm_api_url}/import",
+            enctype:'multipart/form-data'}
+        %fieldset
+          %input{type:'file', name:'file'}
+          %button.btn{type:'submit'} Upload
+
+  .row
+    %h2 Monitoring
+    %p Start or shutdown monitoring service on transcoder manager
+    %hr
+
+    .span8.offset1
+      = link_to "#{BroadcastWeb.config.tm_api_url}/monitor/start", class: 'btn btn-large btn-success' do
+        %i.icon-align-left.icon-play
+        Start
+      = link_to "#{BroadcastWeb.config.tm_api_url}/monitor/shutdown", class: 'btn btn-large btn-danger' do
+        %i.icon-align-left.icon-stop
+        Shutdown
