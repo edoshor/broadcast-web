@@ -13,5 +13,7 @@
           %td= event.name
           %td
             = link_to 'Show', admin_event_path(id: event.id)
-            -#= link_to 'Edit', edit_admin_event_path(id: event.id)
+            \|
+            = link_to 'Edit', edit_admin_event_path(id: event.id)
+            \|
             = link_to 'Destroy', admin_event_path(id: event.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

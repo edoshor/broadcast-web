@@ -2,13 +2,13 @@
   %h2= "Transcoder: #{ @transcoder.name } "
   .subnav
     %ul.nav.nav-pills
-      -#%li
+      %li
         = link_to 'Edit', edit_admin_transcoder_path(id: @transcoder.id)
+      %li
+        = link_to 'View All', admin_transcoders_path
       %li
         = link_to 'Destroy', admin_transcoder_path(id: @transcoder.id), :class => 'label label-important',
         :confirm => 'This will remove statistics as well. Are you sure?', :method => :delete
-      %li
-        = link_to 'View All', admin_transcoders_path
 
 .row-fluid
   %div.span3

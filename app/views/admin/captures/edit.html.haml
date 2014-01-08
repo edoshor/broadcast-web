@@ -1,9 +1,8 @@
-%header.subhead#overview
+%div.page-header
   %h2 Edit Capture
 
 = simple_form_for [:admin, @capture], url: admin_capture_path(id: @capture.id), method: :put do |f|
   = display_errors f
-  %hr.soften
 
   = f.input :name, label: 'Display name'
   = f.input :host, label: 'Host ip address'

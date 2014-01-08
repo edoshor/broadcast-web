@@ -7,7 +7,7 @@ class TMTrack
   attribute :profile_number
 
   def human_num_channels
-    num_channels == 0 ? 'video' : 'audio'
+    num_channels == 0 ? 'Video' : 'Audio'
   end
 
   def human_profile_number

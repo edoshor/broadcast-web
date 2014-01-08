@@ -56,7 +56,7 @@
                     -else
                       = f.input_field :audio_mappings,
                         as: :select,
-                        collection: (1..@first_preset_tracks.size),
+                        collection: (0..@first_preset_tracks.size-1),
                         name: 'tm_scheme[audio_mappings][]',
                         class: 'required',
                         include_blank: false

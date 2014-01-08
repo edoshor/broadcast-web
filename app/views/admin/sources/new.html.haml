@@ -1,9 +1,8 @@
-%header.subhead#overview
+%div.page-header
   %h2 New Source
 
 = simple_form_for [:admin, @source], url: admin_sources_path, method: :post do |f|
   = display_errors f
-  %hr.soften
 
   = f.input :name, label: 'Display name'
 

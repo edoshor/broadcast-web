@@ -3,12 +3,12 @@
     = "Event: #{ @event.name }"
   .subnav
     %ul.nav.nav-pills
-      -#%li
+      %li
         = link_to 'Edit', edit_admin_event_path(id: @event.id)
       %li
-        = link_to 'Destroy', admin_event_path(id: @event.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
-      %li
         = link_to 'View All', admin_events_path
+      %li
+        = link_to 'Destroy', admin_event_path(id: @event.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
 
 .row-fluid
   %div.span3
@@ -72,10 +72,8 @@
           %div.controls
             %select#slotModalSlot{name: 'slot_id'}
     %div.modal-footer
-      %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => 'true'}
-        cancel
-      %button#slotModalSave.btn.btn-primary
-        Save
+      %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => 'true'} cancel
+      %button#slotModalSave.btn.btn-primary Save
 
 :javascript
   bb.show_event(#{ @event.id });
