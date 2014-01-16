@@ -7,11 +7,11 @@ bb.show_transcoder = (tx_id) ->
   refresh_status()
 
 bb.call_slot_action = (s_id, action) ->
-  $.get("/admin/transcoders/#{bb.tx_id}/#{action}_slot?slot_id=#{s_id}");
+  $.get("#{bb.tx_id}/#{action}_slot?slot_id=#{s_id}");
   false
 
 refresh_status = () ->
-  $.get("/admin/transcoders/#{bb.tx_id}/slots_status",
+  $.get("#{bb.tx_id}/slots_status",
   (data) ->
     $('#slots_message').hide()
     $.each(data, (i, status) ->

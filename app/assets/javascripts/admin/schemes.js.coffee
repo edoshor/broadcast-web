@@ -24,7 +24,8 @@ bb.draw_mappings_table = (preset) ->
 
 register_handlers = () ->
   $('#tm_scheme_preset_id').change ->
-    $.get('/admin/presets/' + $(this).val(), bb.draw_mappings_table, "json")
+    rel = if bb.editMode then '../../' else '../'
+    $.get(rel + 'presets/' + $(this).val(), bb.draw_mappings_table, "json")
 
 $ ->
   register_handlers()

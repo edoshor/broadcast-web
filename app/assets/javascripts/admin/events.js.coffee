@@ -7,7 +7,7 @@ bb.show_event = (event_id) ->
   refresh_status()
 
 refresh_status = () ->
-  $.get("/admin/events/#{bb.event_id}/status?with_slots=true",
+  $.get("#{bb.event_id}/status?with_slots=true",
   (data) ->
     state = '<p>'
 
@@ -31,7 +31,7 @@ refresh_status = () ->
   )
 
 load_transcoder_slots = () ->
-  $.get('/admin/transcoders/' + $('#slotModalTranscoder').val() + '/get_slots',
+  $.get('../transcoders/' + $('#slotModalTranscoder').val() + '/get_slots',
   (data) ->
     $('#slots_message').hide()
     opts = ""
@@ -46,9 +46,9 @@ load_transcoder_slots = () ->
 
 register_handlers = () ->
   $('#event_start').click ->
-    $.get("/admin/events/#{bb.event_id}/action?command=start")
+    $.get("#{bb.event_id}/action?command=start")
   $('#event_stop').click ->
-    $.get("/admin/events/#{bb.event_id}/action?command=stop")
+    $.get("#{bb.event_id}/action?command=stop")
   $('#slotModal').on('show', () ->
     load_transcoder_slots())
   $('#slotModalTranscoder').change ->

@@ -8,13 +8,14 @@
     .span4
       %h4 Export
       %p Export configuration to JSON file.
-      = link_to 'Export Configuration', "#{BroadcastWeb.config.tm_api_url}/export" ,class: 'btn'
+      = link_to "#{BroadcastWeb.config.tm_api_url}export" ,class: 'btn' do
+        Export Configuration
 
     .span6
       %h4 Import
       %p Import configuration from JSON file.
       %form{method: 'POST',
-            action:"#{BroadcastWeb.config.tm_api_url}/import",
+            action:"#{BroadcastWeb.config.tm_api_url}import",
             enctype:'multipart/form-data'}
         %fieldset
           %input{type:'file', name:'file'}
@@ -26,9 +27,9 @@
     %hr
 
     .span8.offset1
-      = link_to "#{BroadcastWeb.config.tm_api_url}/monitor/start", class: 'btn btn-large btn-success' do
+      = link_to "#{BroadcastWeb.config.tm_api_url}monitor/start", class: 'btn btn-large btn-success' do
         %i.icon-align-left.icon-play
         Start
-      = link_to "#{BroadcastWeb.config.tm_api_url}/monitor/shutdown", class: 'btn btn-large btn-danger' do
+      = link_to "#{BroadcastWeb.config.tm_api_url}monitor/shutdown", class: 'btn btn-large btn-danger' do
         %i.icon-align-left.icon-stop
         Shutdown

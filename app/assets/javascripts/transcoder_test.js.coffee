@@ -21,7 +21,7 @@ register_handlers = () ->
     $('#results').html('')
 
 refresh_status = () ->
-  $.get("/transcoder_test/status",
+  $.get("status",
     (data) ->
       $('#status').html(data)
   )
