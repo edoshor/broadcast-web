@@ -1,0 +1,16 @@
+user: edos
+group: edos
+timeout: 30
+wait: 30
+log: logs/thin.log
+max_conns: 1024
+require: []
+environment: production
+max_persistent_conns: 512
+port: 3000
+threaded: true
+no-epoll: true
+daemonize: true
+pid: tmp/pids/thin.pid
+chdir: /home/edos/nom/projects/production/broadcast-web
+tag: broadcast-web
