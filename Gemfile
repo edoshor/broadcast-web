@@ -13,6 +13,9 @@ gem 'simple_form'
 gem 'active_attr'
 
 group :development do
+  gem 'capistrano',  '~> 3.1'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-rbenv', '~> 2.0'
   gem 'better_errors'
   #gem 'binding_of_caller'
 end
