@@ -4,7 +4,6 @@ gem 'rails', '3.2.13'
 
 gem 'sqlite3'
 gem 'haml'
-#gem 'devise'
 gem 'thin'
 gem 'jquery-rails'
 gem 'bootstrap-sass', '~> 2.3.1.0'
@@ -13,9 +12,7 @@ gem 'simple_form'
 gem 'active_attr'
 
 group :development do
-  gem 'capistrano',  '~> 3.1'
-  gem 'capistrano-rails', '~> 1.1'
-  gem 'capistrano-rbenv', '~> 2.0'
+  gem 'mina'
   gem 'better_errors'
   #gem 'binding_of_caller'
 end
