@@ -3,6 +3,15 @@ broadcast-web
 
 BB web broadcast management system.
 
+Settings
+--------
+You must set explicitly the endpoint of the transcoder manager API.
+
+Set this in `config/environments/production.yml`.
+
+**Note:** this endpoint must be externally accessible in order for proper functionality of import / export.
+
+
 Transcoder Tests
 ----------------
 
