@@ -7,7 +7,7 @@ set :domain, 'staging'
 set :deploy_to, '/var/www/broadcast-web'
 set :repository, 'https://github.com/edoshor/broadcast-web'
 set :branch, 'master'
-set :shared_paths, %w(config/database.yml config/thin-example.yml environments/production.yml)
+set :shared_paths, %w(config/database.yml config/thin.yml config/environments/production.yml)
 set :user, 'deploy'
 
 
@@ -25,11 +25,12 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/shared/config/database.yml"]
   queue %[echo "-----> Be sure to edit 'shared/config/database.yml'."]
 
+  queue! %[mkdir -p "#{deploy_to}/shared/config/environments"]
   queue! %[touch "#{deploy_to}/shared/config/environments/production.yml"]
   queue %[echo "-----> Be sure to edit 'shared/config/environments/production.yml'."]
 
-  queue! %[touch "#{deploy_to}/shared/config/thin-example.yml"]
-  queue %[echo "-----> Be sure to edit 'shared/config/thin-example.yml'."]
+  queue! %[touch "#{deploy_to}/shared/config/thin.yml"]
+  queue %[echo "-----> Be sure to edit 'shared/config/thin.yml'."]
 end
 
 desc 'Deploys the current version to the server.'
@@ -43,14 +44,14 @@ task :deploy => :environment do
 
     to :launch do
       queue %{
-          if [ -f $(cat config/thin-example.yml | grep pid: | sed '/^pid: */!d; s///;q') ];
+          if [ -f $(cat config/thin.yml | grep pid: | sed '/^pid: */!d; s///;q') ];
           then
             echo "thin is up. restarting"
-            bundle exec thin -C config/thin-example.yml restart
+            bundle exec thin -C config/thin.yml restart
             exit
           else
             echo "thin is down. starting"
-            bundle exec thin -C config/thin-example.yml start
+            bundle exec thin -C config/thin.yml start
             exit
           fi
       %}
