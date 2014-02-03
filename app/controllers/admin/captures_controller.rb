@@ -2,15 +2,13 @@ class Admin::CapturesController < TranscoderManagerController
 
   def index
     tm_get('captures') do |resp|
-      @captures = JSON.parse(resp.body)
-      .map { |atts| TMCapture.new(atts) }
-      .sort_by! { |x| x.name }
+      @captures = resp.map { |atts| TMCapture.new(atts) }.sort_by! { |x| x.name }
     end
   end
 
   def show
     tm_get("captures/#{params[:id]}") do |resp|
-      @capture = TMCapture.new(JSON.parse(resp.body))
+      @capture = TMCapture.new(resp)
     end
   end
 
@@ -19,19 +17,19 @@ class Admin::CapturesController < TranscoderManagerController
   end
 
   def create
-    tm_post('captures', params[:tm_capture].to_hash) do
+    tm_post('captures', {params: params[:tm_capture].to_hash}) do
       redirect_to admin_captures_url, notice: 'Capture created successfully'
     end
   end
 
   def edit
     tm_get("captures/#{params[:id]}") do |resp|
-      @capture = TMCapture.new(JSON.parse(resp.body))
+      @capture = TMCapture.new(resp)
     end
   end
 
   def update
-    tm_put("captures/#{params[:id]}", params[:tm_capture].to_hash) do
+    tm_put("captures/#{params[:id]}", {params: params[:tm_capture].to_hash}) do
       redirect_to admin_capture_path(id: params[:id]), notice: 'Capture updated successfully'
     end
   end

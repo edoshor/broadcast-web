@@ -2,34 +2,27 @@ class Admin::SchemesController < TranscoderManagerController
 
   def index
     tm_get('schemes') do |resp|
-      @schemes = JSON.parse(resp.body)
-      .map { |atts| TMScheme.new(atts) }
-      .sort_by! { |x| x.name }
+      @schemes = resp.map { |atts| TMScheme.new(atts) }.sort_by! { |x| x.name }
     end
   end
 
   def show
     tm_get("schemes/#{params[:id]}") do |resp|
-      @scheme = TMScheme.new(JSON.parse(resp.body))
+      @scheme = TMScheme.new(resp)
     end
   end
 
   def new
     @scheme = TMScheme.new
     tm_get('sources') do |resp|
-      @sources = JSON.parse(resp.body)
-      .map { |atts| TMSource.new(atts) }
-      .sort_by! { |x| x.name }
+      @sources = resp.map { |atts| TMSource.new(atts) }.sort_by! { |x| x.name }
     end
     tm_get('presets') do |resp|
-      @presets = JSON.parse(resp.body)
-      .map { |atts| TMPreset.new(atts) }
-      .sort_by! { |x| x.name }
+      @presets = resp.map { |atts| TMPreset.new(atts) }.sort_by! { |x| x.name }
     end
     @first_preset = @presets.first
     tm_get("presets/#{@first_preset.id}") do |resp|
-      body = JSON.parse(resp.body)
-      @first_preset_tracks = body['tracks'].map { |track| TMTrack.new(track) }
+      @first_preset_tracks = resp['tracks'].map { |track| TMTrack.new(track) }
     end
   end
 
@@ -42,28 +35,23 @@ class Admin::SchemesController < TranscoderManagerController
         preset_id: args[:preset_id],
         audio_mappings: args[:audio_mappings]
     }
-    tm_post('schemes', atts) do
+    tm_post('schemes', {params: atts}) do
       redirect_to admin_schemes_url, notice: 'Scheme created successfully'
     end
   end
 
   def edit
     tm_get("schemes/#{params[:id]}") do |resp|
-      @scheme = TMScheme.new(JSON.parse(resp.body))
+      @scheme = TMScheme.new(resp)
     end
     tm_get('sources') do |resp|
-      @sources = JSON.parse(resp.body)
-      .map { |atts| TMSource.new(atts) }
-      .sort_by! { |x| x.name }
+      @sources = resp.map { |atts| TMSource.new(atts) }.sort_by! { |x| x.name }
     end
     tm_get('presets') do |resp|
-      @presets = JSON.parse(resp.body)
-      .map { |atts| TMPreset.new(atts) }
-      .sort_by! { |x| x.name }
+      @presets = resp.map { |atts| TMPreset.new(atts) }.sort_by! { |x| x.name }
     end
     tm_get("presets/#{@scheme.preset_id}") do |resp|
-      body = JSON.parse(resp.body)
-      @current_preset_tracks = body['tracks'].map { |track| TMTrack.new(track) }
+      @current_preset_tracks = resp['tracks'].map { |track| TMTrack.new(track) }
     end
   end
 
@@ -76,7 +64,7 @@ class Admin::SchemesController < TranscoderManagerController
         preset_id: args[:preset_id],
         audio_mappings: args[:audio_mappings]
     }
-    tm_put("schemes/#{params[:id]}", atts) do
+    tm_put("schemes/#{params[:id]}", {params: atts}) do
       redirect_to admin_scheme_path(id: params[:id]), notice: 'Scheme updated successfully'
     end
   end
