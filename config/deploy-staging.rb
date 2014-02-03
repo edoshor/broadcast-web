@@ -1,15 +1,22 @@
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
+require 'mina/rbenv'
 
-set :domain, 'shidur.bbdomain'
-set :deploy_to, '/sites/shidur/broadcast-web'
+set :domain, 'staging'
+set :deploy_to, '/var/www/broadcast-web'
 set :repository, 'https://github.com/edoshor/broadcast-web'
 set :branch, 'master'
 set :shared_paths, %w(config/database.yml config/thin.yml config/environments/production.yml)
-set :user, 'edoshor'
-set :term_mode, nil
+set :user, 'deploy'
 
+
+set :rbenv_path, '/usr/local/rbenv'
+task :environment do
+  # required for system wide installation of rbenv
+  queue %{export RBENV_ROOT=#{rbenv_path}}
+  invoke :'rbenv:load'
+end
 
 task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/config"]
