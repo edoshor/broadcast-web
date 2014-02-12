@@ -1,8 +1,11 @@
-class PagesController < ApplicationController
+class PagesController < TranscoderManagerController
 
-  def home
-  end
+  def home; end
+  def advanced; end
 
-  def advanced
+  def monitoring
+    tm_get('transcoders') do |resp|
+      @transcoders = resp.map { |atts| TMTranscoder.new(atts) }.sort_by! { |x| x.name }
+    end
   end
 end

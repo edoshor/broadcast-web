@@ -25,17 +25,3 @@
       %fieldset
         %input{type:'file', name:'file'}
         %button.btn{type:'submit'} Upload
-
-.row-fluid
-  %h2 Monitoring
-  %p Start or shutdown monitoring service on transcoder manager
-  %hr
-
-  .row-fluid
-    .span6
-      = link_to "#{BroadcastWeb.config.tm_api_url}monitor/start", class: 'btn btn-large btn-success' do
-        %i.icon-align-left.icon-play
-        Start
-      = link_to "#{BroadcastWeb.config.tm_api_url}monitor/shutdown", class: 'btn btn-large btn-danger' do
-        %i.icon-align-left.icon-stop
-        Shutdown

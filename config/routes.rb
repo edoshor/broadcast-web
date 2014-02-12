@@ -11,6 +11,7 @@ BroadcastWeb::Application.routes.draw do
   get 'transcoder_test/host',controller: :TranscoderTest, action: :change_transcoder
 
   get 'advanced', controller: :Pages, action: :advanced
+  get 'monitoring', controller: :Pages, action: :monitoring
 
   namespace :admin do
     resources :captures

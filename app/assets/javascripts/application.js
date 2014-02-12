@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require jquery.flot
+//= require jquery.flot.time
 //= require_tree .
