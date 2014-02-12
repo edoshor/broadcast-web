@@ -12,7 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
+//= require bootstrap-transition
+//= require bootstrap-alert
+//= require bootstrap-dropdown
+//= require bootstrap-modal
 //= require jquery.flot
 //= require jquery.flot.time
 //= require_tree .
