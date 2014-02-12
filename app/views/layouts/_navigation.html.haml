@@ -1,23 +1,26 @@
 .navbar
   .navbar-inner
     .container
-      = link_to 'BB Web Broadcast', '/', :class => 'brand span3'
-      %ul.nav
-        %li= link_to 'Events', admin_events_path
-        %li= link_to 'Transcoders', admin_transcoders_path
-        %li= link_to 'Schemes', admin_schemes_path
-        %li= link_to 'Presets', admin_presets_path
-        %li= link_to 'Sources', admin_sources_path
-        %li= link_to 'Captures', admin_captures_path
-
-        %li.divider-vertical
-        %li= link_to 'Advanced', advanced_path
-
-        %li.divider-vertical
-        %li.dropdown.pull-right
-          %a.dropdown-toggle{:href => '#', :'data-toggle' => 'dropdown'}
-            Old stuff
-            %b.caret
-          %ul.dropdown-menu
-            %li= link_to 'Transcoder test', transcoder_test_path
-            %li= link_to 'Transcoder console', transcoder_console_path
+      = link_to  '/', :class => 'brand' do
+        = image_tag 'bb.png', size: '32x32'
+        &nbsp;&nbsp;&nbsp;
+        BB Web Broadcast
+      -#%ul.nav
+      -#  %li= link_to 'Events', admin_events_path
+      -#  %li= link_to 'Transcoders', admin_transcoders_path
+      -#  %li= link_to 'Schemes', admin_schemes_path
+      -#  %li= link_to 'Presets', admin_presets_path
+      -#  %li= link_to 'Sources', admin_sources_path
+      -#  %li= link_to 'Captures', admin_captures_path
+      -#
+      -#  %li.divider-vertical
+      -#  %li= link_to 'Advanced', advanced_path
+      -#
+      -#  %li.divider-vertical
+      -#  %li.dropdown.pull-right
+      -#    %a.dropdown-toggle{:href => '#', :'data-toggle' => 'dropdown'}
+      -#      Old stuff
+      -#      %b.caret
+      -#    %ul.dropdown-menu
+      -#      %li= link_to 'Transcoder test', transcoder_test_path
+      -#      %li= link_to 'Transcoder console', transcoder_console_path

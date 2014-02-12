@@ -1,4 +1,9 @@
-%h1 Captures
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li.active Captures
+
 %p
   = link_to 'New Capture', new_admin_capture_path, :class => 'btn btn-success btn-large pull-right'
 .row-fluid

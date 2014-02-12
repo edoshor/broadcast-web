@@ -1,16 +1,20 @@
-%div.page-header
-  %h2 New Scheme
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li
+    = link_to 'Schemes' , admin_schemes_path
+    %span.divider /
+  %li.active New Scheme
 
 .row-fluid
-  .span9
+  .span12
     = simple_form_for [:admin, @scheme], url: admin_schemes_path, method: :post do |f|
       = display_errors f
 
       .row-fluid
-        = f.input :name, label: 'Display name'
-
-      .row-fluid
         .span4
+          = f.input :name, label: 'Display name'
           = f.input :src1_id,
             as: :select,
             label: 'Source 1',
@@ -61,15 +65,7 @@
                         class: 'required',
                         include_blank: false
 
-      .row-fluid
-      %hr.soften
       = display_actions f, admin_presets_url
-
-  .span3
-    .well
-      %h3 Help
-      %p
-        help is on the way for every form in the application
 
 :javascript
   bb.editMode = false

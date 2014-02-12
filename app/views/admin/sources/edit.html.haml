@@ -1,5 +1,14 @@
-%div.page-header
-  %h2 Edit Source
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li
+    = link_to 'Sources' , admin_sources_path
+    %span.divider /
+  %li
+    = link_to @source.name , admin_source_path(id: @source.id)
+    %span.divider /
+  %li.active Edit
 
 = simple_form_for [:admin, @source], url: admin_source_path(id: @source.id), method: :put do |f|
   = display_errors f
@@ -20,5 +29,4 @@
     collection: (1..4),
     include_blank: false
 
-  %hr.soften
   = display_actions f, admin_source_path(id: @source.id)

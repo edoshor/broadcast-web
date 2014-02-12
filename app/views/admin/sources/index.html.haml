@@ -1,4 +1,9 @@
-%h1 Sources
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li.active Sources
+
 %p
   = link_to 'New Source', new_admin_source_path, :class => 'btn btn-success btn-large pull-right'
 .row-fluid

@@ -1,17 +1,25 @@
-%header.subhead#overview
-  %h2 Edit Preset
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li
+    = link_to 'Presets' , admin_presets_path
+    %span.divider /
+  %li
+    = link_to @preset.name , admin_preset_path(id: @preset.id)
+    %span.divider /
+  %li.active Edit
 
 = simple_form_for [:admin, @preset], url: admin_preset_path(id: @preset.id), method: :put do |f|
   = display_errors f
-  %hr.soften
 
   = f.input :name, label: 'Display name'
   = f.hidden_field :tracks, value: '[]'
 
   .row-fluid
-    %h3 Tracks
-    %p Note that tracks can't change. Please create a new preset instead.
-    .span9
+    .span6
+      %h3 Tracks
+      %p Note that tracks can't change. Please create a new preset instead.
       %table#tracksTable.table.table-striped.table-bordered.table-condensed
         %thead
           %tr
@@ -25,5 +33,4 @@
               %td= t.human_profile_number
               %td= t.gain
 
-  %hr.soften
   = display_actions f, admin_preset_path(id: @preset.id)

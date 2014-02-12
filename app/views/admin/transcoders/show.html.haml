@@ -1,25 +1,31 @@
-%header.subhead#overview
-  %h2= "Transcoder: #{ @transcoder.name } "
-  .subnav
-    %ul.nav.nav-pills
-      %li
-        = link_to 'Edit', edit_admin_transcoder_path(id: @transcoder.id)
-      %li
-        = link_to 'View All', admin_transcoders_path
-      %li
-        = link_to 'Destroy', admin_transcoder_path(id: @transcoder.id), :class => 'label label-important',
-        :confirm => 'This will remove statistics as well. Are you sure?', :method => :delete
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li
+    = link_to 'Transcoders' , admin_transcoders_path
+    %span.divider /
+  %li.active= @transcoder.name
+
+.subnav
+  %ul.nav.nav-pills
+    %li
+      = link_to 'Edit', edit_admin_transcoder_path(id: @transcoder.id)
+    %li
+      = link_to 'View All', admin_transcoders_path
+    %li
+      = link_to 'Destroy', admin_transcoder_path(id: @transcoder.id), :class => 'label label-important',
+      :confirm => 'This will remove statistics as well. Are you sure?', :method => :delete
 
 .row-fluid
-  %div.span3
-    %section.well
-      = display_show_item('ID', @transcoder.id)
-      = display_show_item('Name', @transcoder.name)
-      = display_show_item('Host', @transcoder.host)
-      = display_show_item('Port', @transcoder.port)
-      = display_show_item('Status Port', @transcoder.status_port)
-      = display_show_item('Number of Slots', @slots.length)
-  %div.span8.offset1
+  .span4.well
+    = display_show_item('ID', @transcoder.id)
+    = display_show_item('Name', @transcoder.name)
+    = display_show_item('Host', @transcoder.host)
+    = display_show_item('Port', @transcoder.port)
+    = display_show_item('Status Port', @transcoder.status_port)
+    = display_show_item('Number of Slots', @slots.length)
+  .span8
     = link_to 'Save Config', action_admin_transcoder_path(command: :save) ,class: 'btn'
     %p Saves the current configuration state on the transcoder.
     = link_to 'Restart', action_admin_transcoder_path(command: :restart) ,class: 'btn'
@@ -29,33 +35,31 @@
       Synchronize the actual, current, configuration on the transcoder
       with the saved configuration in the Transcoder Manager.
 
-%section
-  .row-fluid
-    .span2
-      %h3 Slots:
-    %span.pull-right
-      = link_to 'New Slot', '#slotModal', class: 'btn btn-success btn-large', :'data-toggle' => 'modal'
-
+.row-fluid
+  .span2
+    %h3 Slots:
+  %span.pull-right
+    = link_to 'New Slot', '#slotModal', class: 'btn btn-success btn-large', :'data-toggle' => 'modal'
   %span.text-error{id:'slots_message', style: 'display:none;'}
 
-  .row-fluid
-    %table.table.table-bordered.table-condensed
-      %thead
+.row-fluid
+  %table.table.table-bordered.table-condensed
+    %thead
+      %tr
+        %th Slot_id
+        %th Scheme
+        %th Link
+        %th State
+        %th{colspan: 2, width: '120px'} Actions
+    %tbody
+      - @slots.each do |s|
         %tr
-          %th Slot_id
-          %th Scheme
-          %th Link
-          %th State
-          %th{colspan: 2, width: '120px'} Actions
-      %tbody
-        - @slots.each do |s|
-          %tr
-            %td{width: '25px'}= s.slot_id
-            %td{width: '100px'}= link_to s.scheme_name, admin_scheme_path(id: s.scheme_id)
-            %td{width: '70px'}= "http://#{@transcoder.host}:#{8000 + s.slot_id}"
-            %td{id: "slot_state_#{s.slot_id}", width: '250px'}
-            %td{id: "slot_action_#{s.slot_id}", width: '60px'}
-            %td{width: '60px'}= link_to 'delete', delete_slot_admin_transcoder_path(slot_id: s.id), :class => 'label label-important',:method => :delete
+          %td{width: '25px'}= s.slot_id
+          %td{width: '100px'}= link_to s.scheme_name, admin_scheme_path(id: s.scheme_id)
+          %td{width: '70px'}= "http://#{@transcoder.host}:#{8000 + s.slot_id}"
+          %td{id: "slot_state_#{s.slot_id}", width: '250px'}
+          %td{id: "slot_action_#{s.slot_id}", width: '60px'}
+          %td{width: '60px'}= link_to 'delete', delete_slot_admin_transcoder_path(slot_id: s.id), :class => 'label label-important',:method => :delete
 
 %div#slotModal.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'slot label', :'aria-hidden' => 'true'}
   %form#slotForm.form-horizontal{action: create_slot_admin_transcoder_path}

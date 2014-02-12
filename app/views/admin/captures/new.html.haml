@@ -1,5 +1,11 @@
-%div.page-header
-  %h2 New Capture
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li
+    = link_to 'Captures' , admin_captures_path
+    %span.divider /
+  %li.active New Capture
 
 = simple_form_for [:admin, @capture], url: admin_captures_path, method: :post do |f|
   = display_errors f
@@ -11,5 +17,4 @@
   = f.input :input3, label: 'input3'
   = f.input :input4, label: 'input4'
 
-  %hr.soften
   = display_actions f, admin_captures_url

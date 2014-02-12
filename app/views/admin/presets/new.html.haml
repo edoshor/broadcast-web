@@ -1,30 +1,36 @@
-%header.subhead#overview
-  %h2 New Preset
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li
+    = link_to 'Presets' , admin_presets_path
+    %span.divider /
+  %li.active New Preset
 
 = simple_form_for [:admin, @preset], url: admin_presets_path, method: :post do |f|
   = display_errors f
-  %hr.soften
 
   = f.input :name, label: 'Display name'
   = f.hidden_field :tracks, value: ''
 
   .row-fluid
-    %h3 Tracks
-    .span9
-      %p(align='right')
-        = link_to 'Add track', '#trackModal', class: 'btn btn-success btn-large pull-right', :'data-toggle' => 'modal'
-      %br
-      %br
-      %table#tracksTable.table.table-striped.table-bordered.table-condensed
-        %thead
-          %tr
-            %th Channels
-            %th Profile
-            %th Gain
-            %th Actions
-        %tbody
+    .span6
+      .row-fluid
+        .span2
+          %h4 Tracks:
+        %span.pull-right
+          = link_to 'Add track', '#trackModal', class: 'btn btn-success', :'data-toggle' => 'modal'
 
-  %hr.soften
+      .row-fluid
+        %table#tracksTable.table.table-striped.table-bordered.table-condensed
+          %thead
+            %tr
+              %th Channels
+              %th Profile
+              %th Gain
+              %th Actions
+          %tbody
+
   = display_actions f, admin_presets_url
 
 %div#trackModal.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'track label', :'aria-hidden' => 'true'}

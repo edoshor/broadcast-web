@@ -14,7 +14,27 @@
     = render 'layouts/navigation'
     .container-fluid
       .row-fluid
-        - flash.each do |name, msg|
-          - klass = (name.to_s == 'error' || name.to_s == 'alert') ? 'alert fade in alert-error' : 'alert fade in alert-info'
-          = content_tag :div, "<a class='close' data-dismiss='alert' href='#'>&times;</a>#{msg}".html_safe, :class => klass
-        = yield
+        .span2
+          %ul.nav.nav-list
+            %li.nav-header Configuration
+            %li= link_to 'Events', admin_events_path
+            %li= link_to 'Transcoders', admin_transcoders_path
+            %li= link_to 'Schemes', admin_schemes_path
+            %li= link_to 'Presets', admin_presets_path
+            %li= link_to 'Sources', admin_sources_path
+            %li= link_to 'Captures', admin_captures_path
+
+            %li.nav-header Advanced
+            %li= link_to 'Maintenance', advanced_path
+
+            %li.nav-header Old stuff
+            %li= link_to 'Transcoder test', transcoder_test_path
+            %li= link_to 'Transcoder console', transcoder_console_path
+
+        .span10
+          %ul.breadcrumb
+            =yield(:breadcrumb)
+          - flash.each do |name, msg|
+            - klass = (name.to_s == 'error' || name.to_s == 'alert') ? 'alert fade in alert-error' : 'alert fade in alert-info'
+            = content_tag :div, "<a class='close' data-dismiss='alert' href='#'>&times;</a>#{msg}".html_safe, :class => klass
+          = yield

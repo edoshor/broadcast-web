@@ -1,4 +1,9 @@
-%h1 Schemes
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li.active Schemes
+
 %p
   = link_to 'New Scheme', new_admin_scheme_path, :class => 'btn btn-success btn-large pull-right'
 .row-fluid

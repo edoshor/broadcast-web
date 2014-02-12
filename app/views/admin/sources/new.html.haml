@@ -1,5 +1,11 @@
-%div.page-header
-  %h2 New Source
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li
+    = link_to 'Sources' , admin_sources_path
+    %span.divider /
+  %li.active New Source
 
 = simple_form_for [:admin, @source], url: admin_sources_path, method: :post do |f|
   = display_errors f
@@ -16,5 +22,4 @@
 
   = f.input :input, label: 'Input', collection: (1..4)
 
-  %hr.soften
   = display_actions f, admin_sources_url

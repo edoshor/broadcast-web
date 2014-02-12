@@ -1,5 +1,11 @@
 = javascript('transcoder_test')
 
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li.active Transcoder Test
+
 .row-fluid
   .span8
     .row-fluid

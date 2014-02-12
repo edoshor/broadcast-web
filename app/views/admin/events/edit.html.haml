@@ -1,18 +1,17 @@
-%div.page-header
-  %h2 Edit Event
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li
+    = link_to 'Events' , admin_events_path
+    %span.divider /
+  %li
+    = link_to @event.name , admin_event_path(id: @event.id)
+    %span.divider /
+  %li.active Edit
 
 .row-fluid
-  .span9
-    = simple_form_for [:admin, @event], url: admin_event_path(id: @event.id), method: :put do |f|
-      = display_errors f
-
-      = f.input :name, label: 'Display name'
-
-      %hr.soften
-      = display_actions f, admin_event_path(id: @event.id)
-
-  .span3
-    .well
-      %h3 Help
-      %p
-        help is on the way for every form in the application
+  = simple_form_for [:admin, @event], url: admin_event_path(id: @event.id), method: :put do |f|
+    = display_errors f
+    = f.input :name, label: 'Display name'
+    = display_actions f, admin_event_path(id: @event.id)

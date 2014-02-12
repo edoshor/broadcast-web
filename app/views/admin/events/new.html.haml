@@ -1,11 +1,13 @@
-%header.subhead#overview
-  %h2 New Event
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li
+    = link_to 'Events' , admin_events_path
+    %span.divider /
+  %li.active New Event
 
 = simple_form_for [:admin, @event], url: admin_events_path, method: :post do |f|
   = display_errors f
-  %hr.soften
-
   = f.input :name, label: 'Display name'
-
-  %hr.soften
   = display_actions f, admin_events_url

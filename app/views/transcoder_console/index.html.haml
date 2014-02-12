@@ -1,5 +1,11 @@
 = javascript('transcoder_console')
 
+= content_for :breadcrumb do
+  %li
+    = link_to 'Home' , '/'
+    %span.divider /
+  %li.active Transcoder Console
+
 .row-fluid
   .span8
     .row-fluid
@@ -10,6 +16,7 @@
             %label{for: 'command'}
               Command:
               %textarea.span12{name: 'command', :rows => 3}= params[:command]
+        .row-fluid
           .span3
             %label{for: 'host'}
               Host:
