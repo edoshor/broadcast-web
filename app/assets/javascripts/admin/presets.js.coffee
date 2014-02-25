@@ -2,6 +2,7 @@ window.bb ?= {}
 
 bb.remove_track = (row_id) ->
   $('#tracksTable').data('tracks').splice(row_id, 1)
+  $('#tm_preset_tracks').val(JSON.stringify($('#tracksTable').data('tracks')))
   bb.redraw_tracks_table()
 
 bb.redraw_tracks_table = () ->
@@ -17,7 +18,10 @@ bb.redraw_tracks_table = () ->
     table.append(row)
 
 register_handlers = () ->
-  $('#tracksTable').data('tracks', [])
+  tracks = bb.copy_tracks or []
+  $('#tracksTable').data('tracks', tracks)
+  $('#tm_preset_tracks').val(JSON.stringify(tracks))
+  bb.redraw_tracks_table()
 
   $('#trackModalChannels').change ->
     if $(this).val() == '0'

@@ -13,7 +13,11 @@ class Admin::CapturesController < TranscoderManagerController
   end
 
   def new
-    @capture = TMCapture.new
+    if params[:id]
+      show
+    else
+      @capture = TMCapture.new
+    end
   end
 
   def create

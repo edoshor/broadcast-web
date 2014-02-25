@@ -31,4 +31,6 @@
             \|
             = link_to 'Edit', edit_admin_capture_path(id: capture.id)
             \|
+            = link_to 'Copy', new_admin_capture_path(id: capture.id)
+            \|
             = link_to 'Destroy', admin_capture_path(id: capture.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

@@ -9,63 +9,14 @@
 
 .row-fluid
   .span12
-    = simple_form_for [:admin, @scheme], url: admin_schemes_path, method: :post do |f|
-      = display_errors f
-
-      .row-fluid
-        .span4
-          = f.input :name, label: 'Display name'
-          = f.input :src1_id,
-            as: :select,
-            label: 'Source 1',
-            collection: @sources,
-            hint: 'Primary input source',
-            label_method: lambda {|s| s.name},
-            value_method: lambda {|s| s.id},
-            include_blank: false
-
-          = f.input :src2_id,
-            as: :select,
-            label: 'Source 2',
-            collection: @sources,
-            hint: 'Secondary input source',
-            label_method: lambda {|s| s.name},
-            value_method: lambda {|s| s.id}
-
-        .span6
-          = f.input :preset_id,
-            as: :select,
-            collection: @presets,
-            label_method: lambda {|p| p.name},
-            value_method: lambda {|p| p.id},
-            selected: @first_preset.id
-
-          %p Audio mappings
-          %table#mappingsTable.table.table-bordered.table-condensed
-            %thead
-              %tr
-                %th Type
-                %th Profile
-                %th Gain
-                %th Audio Channel
-            %tbody
-              - @first_preset_tracks.each do |t|
-                %tr
-                  %td= t.human_num_channels
-                  %td= t.human_profile_number
-                  %td= t.gain
-                  %td
-                    - if t.num_channels == 0
-                      = f.hidden_field :audio_mappings, value:0, name: 'tm_scheme[audio_mappings][]'
-                    -else
-                      = f.input_field :audio_mappings,
-                        as: :select,
-                        collection: (0..@first_preset_tracks.size-1),
-                        name: 'tm_scheme[audio_mappings][]',
-                        class: 'required',
-                        include_blank: false
-
-      = display_actions f, admin_presets_url
+    - if @copy
+      = render(partial: 'edit_form',
+      locals: {scheme: @scheme, sources: @sources, copy: true,
+      presets: @presets, current_preset_tracks: @current_preset_tracks})
+    - else
+      = render(partial: 'new_form',
+      locals: {scheme: @scheme, sources: @sources, presets: @presets,
+      first_preset: @first_preset, first_preset_tracks: @first_preset_tracks})
 
 :javascript
   bb.editMode = false

@@ -21,7 +21,13 @@ class Admin::PresetsController < TranscoderManagerController
   end
 
   def new
-    @preset = TMPreset.new
+    if params[:id]
+      @copy = true
+      show
+    else
+      @copy = false
+      @preset = TMPreset.new
+    end
   end
 
   def create
@@ -31,7 +37,6 @@ class Admin::PresetsController < TranscoderManagerController
         name: args[:name],
         tracks: JSON.parse(args[:tracks])
     }
-
     tm_post('presets', {params: atts}) do
       redirect_to admin_presets_url, notice: 'Preset created successfully'
     end

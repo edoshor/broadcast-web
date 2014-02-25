@@ -33,6 +33,11 @@
 
   = display_actions f, admin_presets_url
 
+- if @copy
+  :javascript
+     bb.copy_tracks = $.map(JSON.parse('#{@tracks.to_json}'),
+     function(t,i) { return t.tm_track;});
+
 %div#trackModal.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'track label', :'aria-hidden' => 'true'}
   %div.modal-header
     %button.close{type: 'button', :'data-dismiss' => 'modal', :'aria-hidden' => 'true'}

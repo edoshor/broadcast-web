@@ -21,4 +21,6 @@
             \|
             = link_to 'Edit', edit_admin_scheme_path(id: scheme.id)
             \|
+            = link_to 'Copy', new_admin_scheme_path(id: scheme.id)
+            \|
             = link_to 'Destroy', admin_scheme_path(id: scheme.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete

@@ -19,7 +19,13 @@ class Admin::TranscodersController < TranscoderManagerController
   end
 
   def new
-    @transcoder = TMTranscoder.new
+    if params[:id]
+      tm_get("transcoders/#{params[:id]}") do |resp|
+        @transcoder = TMTranscoder.new(resp)
+      end
+    else
+      @transcoder = TMTranscoder.new
+    end
   end
 
   def create

@@ -13,7 +13,11 @@ class Admin::SourcesController < TranscoderManagerController
   end
 
   def new
-    @source = TMSource.new
+    if params[:id]
+      show
+    else
+      @source = TMSource.new
+    end
     tm_get('captures') do |resp|
       @captures = resp.map { |atts| TMCapture.new(atts) }.sort_by! { |x| x.name }
     end

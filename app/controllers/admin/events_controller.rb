@@ -19,7 +19,13 @@ class Admin::EventsController < TranscoderManagerController
   end
 
   def new
-    @event = TMEvent.new
+    if params[:id]
+      tm_get("events/#{params[:id]}") do |resp|
+        @event = TMEvent.new(resp)
+      end
+    else
+      @event = TMEvent.new
+    end
   end
 
   def create

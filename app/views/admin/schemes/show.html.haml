@@ -12,7 +12,7 @@
     %li
       = link_to 'Edit', edit_admin_scheme_path(id: @scheme.id)
     %li
-      = link_to 'View All', admin_schemes_path
+      = link_to 'Copy', new_admin_scheme_path(id: @scheme.id)
     %li
       = link_to 'Destroy', admin_scheme_path(id: @scheme.id), :class => 'label label-important', :confirm => 'Are you sure?', :method => :delete
 

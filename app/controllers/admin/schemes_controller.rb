@@ -13,16 +13,17 @@ class Admin::SchemesController < TranscoderManagerController
   end
 
   def new
-    @scheme = TMScheme.new
-    tm_get('sources') do |resp|
-      @sources = resp.map { |atts| TMSource.new(atts) }.sort_by! { |x| x.name }
-    end
-    tm_get('presets') do |resp|
-      @presets = resp.map { |atts| TMPreset.new(atts) }.sort_by! { |x| x.name }
-    end
-    @first_preset = @presets.first
-    tm_get("presets/#{@first_preset.id}") do |resp|
-      @first_preset_tracks = resp['tracks'].map { |track| TMTrack.new(track) }
+    if params[:id]
+      @copy = true
+      edit
+    else
+      @copy = false
+      @scheme = TMScheme.new
+      prepare_sources_presets
+      @first_preset = @presets.first
+      tm_get("presets/#{@first_preset.id}") do |resp|
+        @first_preset_tracks = resp['tracks'].map { |track| TMTrack.new(track) }
+      end
     end
   end
 
@@ -41,15 +42,8 @@ class Admin::SchemesController < TranscoderManagerController
   end
 
   def edit
-    tm_get("schemes/#{params[:id]}") do |resp|
-      @scheme = TMScheme.new(resp)
-    end
-    tm_get('sources') do |resp|
-      @sources = resp.map { |atts| TMSource.new(atts) }.sort_by! { |x| x.name }
-    end
-    tm_get('presets') do |resp|
-      @presets = resp.map { |atts| TMPreset.new(atts) }.sort_by! { |x| x.name }
-    end
+    show
+    prepare_sources_presets
     tm_get("presets/#{@scheme.preset_id}") do |resp|
       @current_preset_tracks = resp['tracks'].map { |track| TMTrack.new(track) }
     end
@@ -72,6 +66,18 @@ class Admin::SchemesController < TranscoderManagerController
   def destroy
     tm_delete("schemes/#{ params[:id] }") do
       redirect_to admin_schemes_url, notice: 'Scheme deleted successfully'
+    end
+  end
+
+
+  private
+
+  def prepare_sources_presets
+    tm_get('sources') do |resp|
+      @sources = resp.map { |atts| TMSource.new(atts) }.sort_by! { |x| x.name }
+    end
+    tm_get('presets') do |resp|
+      @presets = resp.map { |atts| TMPreset.new(atts) }.sort_by! { |x| x.name }
     end
   end
 
