@@ -21,7 +21,8 @@ register_handlers = () ->
   tracks = bb.copy_tracks or []
   $('#tracksTable').data('tracks', tracks)
   $('#tm_preset_tracks').val(JSON.stringify(tracks))
-  bb.redraw_tracks_table()
+  if tracks.length > 0
+    bb.redraw_tracks_table()
 
   $('#trackModalChannels').change ->
     if $(this).val() == '0'
