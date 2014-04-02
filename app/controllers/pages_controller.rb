@@ -1,6 +1,13 @@
 class PagesController < TranscoderManagerController
 
-  def home; end
+  def home
+    render action: 'home', layout: 'nomenu_layout'
+  end
+
+  def admin
+    render action: 'home'
+  end
+
   def advanced; end
 
   def monitoring

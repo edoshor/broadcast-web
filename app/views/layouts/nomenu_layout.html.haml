@@ -1,0 +1,18 @@
+!!! 5
+%html
+  %head
+    %meta{:charset=>'utf-8'}
+    %title
+      = content_for?(:title) ? yield(:title) : 'BB Web Broadcast'
+    %meta{:content=>'width=device-width, initial-scale=1.0', :name=>'viewport'}/
+    %meta{'http-equiv'=>'Content-Type', :content=>'text/html; charset=utf-8'}/
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
+    = csrf_meta_tag
+    = yield(:head)
+  %body
+    = render 'layouts/navigation'
+    - flash.each do |name, msg|
+      - klass = (name.to_s == 'error' || name.to_s == 'alert') ? 'alert fade in alert-error' : 'alert fade in alert-info'
+      = content_tag :div, "<a class='close' data-dismiss='alert' href='#'>&times;</a>#{msg}".html_safe, :class => klass
+    = yield

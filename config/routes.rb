@@ -13,6 +13,8 @@ BroadcastWeb::Application.routes.draw do
   get 'advanced', controller: :Pages, action: :advanced
   get 'monitoring', controller: :Pages, action: :monitoring
 
+  get '/admin/', controller: :Pages, action: :admin
+
   namespace :admin do
     resources :captures
     resources :sources
