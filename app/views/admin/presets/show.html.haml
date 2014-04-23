@@ -28,12 +28,14 @@
     %table.table.table-striped.table-bordered.table-condensed
       %thead
         %tr
+          %th
           %th Channels
           %th Profile
           %th Gain
       %tbody
-        - @tracks.each do |t|
+        - @tracks.each_with_index do |t, i|
           %tr
+            %td= i
             %td= t.human_num_channels
             %td= t.human_profile_number
             %td= t.gain

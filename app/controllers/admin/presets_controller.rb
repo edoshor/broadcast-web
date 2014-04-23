@@ -50,7 +50,9 @@ class Admin::PresetsController < TranscoderManagerController
   end
 
   def update
-    tm_put("presets/#{params[:id]}", {params: params[:tm_preset].to_hash}) do
+    atts = params[:tm_preset].to_hash
+    atts[:gain] = params[:gain]
+    tm_put("presets/#{params[:id]}", {params: atts}) do
       redirect_to admin_preset_path(id: params[:id]), notice: 'Preset updated successfully'
     end
   end

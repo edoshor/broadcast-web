@@ -23,14 +23,22 @@
       %table#tracksTable.table.table-striped.table-bordered.table-condensed
         %thead
           %tr
+            %th
             %th Channels
             %th Profile
             %th Gain
         %tbody
-          - @tracks.each do |t|
+          - @tracks.each_with_index do |t, i|
             %tr
+              %td= i
               %td= t.human_num_channels
               %td= t.human_profile_number
-              %td= t.gain
+              %td
+                - if t.num_channels == 0
+                  %input{type: :hidden, name: 'gain[]', value: 0}
+                  0
+                -else
+                  %input{type: :number, name: 'gain[]', value: t.gain}
+
 
   = display_actions f, admin_preset_path(id: @preset.id)

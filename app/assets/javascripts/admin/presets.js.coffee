@@ -10,6 +10,7 @@ bb.redraw_tracks_table = () ->
   table.empty()
   for track, i in $('#tracksTable').data('tracks')
     row = "<tr>"
+    row += "<td> #{ i } </td>"
     row += "<td> #{ bb.humanize_channels(track.num_channels) } </td>"
     row += "<td> #{ bb.humanize_profile(track.profile_number) } </td>"
     row += "<td> #{ track.gain } </td>"
