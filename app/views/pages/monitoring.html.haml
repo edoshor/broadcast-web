@@ -26,19 +26,14 @@
 %hr
 
 .row-fluid
-  .span6
-    - @transcoders.each do |txcoder|
-      %div
-        %h5= "#{txcoder.name} - cpu load"
-        %div.monitor-plot{id: "cpu-plot-#{txcoder.id}",
-        :'data-tx-id' => txcoder.id, :'data-type' => 'cpu'}
-
-  .span6
-    - @transcoders.each do |txcoder|
-      %div
-        %h5= "#{txcoder.name} - temperature"
-        %div.monitor-plot{id: "temperature-plot-#{txcoder.id}",
-        :'data-tx-id' => txcoder.id, :'data-type' => 'temperature'}
+  - @transcoders.each_slice(2) do |txcoders|
+    .row-fluid
+      -txcoders.each do |t|
+        .span6
+          %div
+            %h5= "#{t.name}"
+            %div.monitor-plot{id: "cpu-plot-#{t.id}",
+            :'data-tx-id' => t.id, :'data-type' => 'cpu'}
 
 :javascript
   backendUrl = "#{BroadcastWeb.config.tm_api_url}"
