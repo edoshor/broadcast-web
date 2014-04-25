@@ -12,16 +12,8 @@
       %option{value: 'hour', selected:'selected'} last hour
       %option{value: 'day'} last 24 hours
       %option{value: 'week'} last week
-  .span2
-    Status:
-    %span#monitoring-status
-  .span3
-    %button#start-monitoring.btn.btn-small.btn-success
-      %i.icon-align-left.icon-play
-      Start
-    %button#stop-monitoring.btn.btn-small.btn-danger
-      %i.icon-align-left.icon-stop
-      Shutdown
+  .span3.offset2
+    %button#monitoring-status.btn
 
 %hr
 
@@ -32,8 +24,7 @@
         .span6
           %div
             %h5= "#{t.name}"
-            %div.monitor-plot{id: "cpu-plot-#{t.id}",
-            :'data-tx-id' => t.id, :'data-type' => 'cpu'}
+            %div.monitor-plot{id: "cpu-plot-#{t.id}", :'data-tx-id' => t.id, :'data-type' => 'cpu'}
 
 :javascript
   backendUrl = "#{BroadcastWeb.config.tm_api_url}"

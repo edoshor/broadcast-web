@@ -63,13 +63,13 @@ function updateStatus() {
         dataType: 'json',
         success: function (responseData, textStatus, jqXHR) {
             if (responseData.status) {
-                $("#monitoring-status").text("running");
-                $("#start-monitoring").addClass("disabled");
-                $("#stop-monitoring").removeClass("disabled");
+                $("#monitoring-status")
+                    .removeClass("btn-success").addClass("btn-danger")
+                    .html('<i class="icon-align-left icon-stop"></i>  Stop Monitoring');
             } else {
-                $("#monitoring-status").text("stopped");
-                $("#stop-monitoring").addClass("disabled");
-                $("#start-monitoring").removeClass("disabled");
+                $("#monitoring-status")
+                    .removeClass("btn-danger").addClass("btn-success")
+                    .html('<i class="icon-align-left icon-play"></i>  Start Monitoring');
             }
         }
     });
@@ -104,11 +104,12 @@ $(document).ready(function() {
         createPlots();
         updateStatus();
         setInterval("updateStatus()", updateInterval);
-        $("#start-monitoring").click(function() {
-            $.get(backendUrl + 'monitor/start');
-        });
-        $("#stop-monitoring").click(function() {
-            $.get(backendUrl + 'monitor/shutdown');
+        $("#monitoring-status").click(function() {
+            var action = 'start';
+            if ($("#monitoring-status").text() == 'Stop Monitoring') {
+                action = 'shutdown';
+            }
+            $.get(backendUrl + 'monitor/'+ action);
         });
     }
 });
