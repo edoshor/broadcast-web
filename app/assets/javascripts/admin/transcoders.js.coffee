@@ -21,12 +21,17 @@ refresh_status = () ->
       '<i class=\"icon-align-left icon-play\"></i> Start</button>'
 
       if status.running
-        statusHtml = "Running, uptime: #{ status.uptime }"
+        if status.signal > 0
+          statusHtml = '<span class="label label-success">Good Signal</span>'
+        else
+          statusHtml = '<span class="label label-important">No Signal</span>'
+        statusHtml += " #{ status.uptime } "
+
         actionLink = '<button class=\"btn btn-danger\"' +
         'onclick=\"javascript:bb.call_slot_action(' + status.id + ',\'stop\');\">' +
         '<i class=\"icon-align-left icon-stop\"></i> Stop</button>'
 
-      $('#slot_state_' + status.slot_id).text(statusHtml)
+      $('#slot_state_' + status.slot_id).html(statusHtml)
       $('#slot_action_' + status.slot_id).html(actionLink)
     )
   , 'json'

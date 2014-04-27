@@ -3,15 +3,10 @@ function createPlots() {
         var element = $(this);
         var tx_id = element.data('tx-id');
         element.data('plot', $.plot(this, [], plotOptions));
-
-        var type = element.data('type');
-        if (type == 'cpu') {
-            setInterval("updateCpuData('" + tx_id + "')", updateInterval);
-            updateCpuData(tx_id);
-        } else {
-            setInterval("updateTemperatureData('" + tx_id + "')", updateInterval);
-            updateTemperatureData(tx_id);
-        }
+        setInterval("updateCpuData('" + tx_id + "')", updateInterval);
+        setInterval("updateSignalStatus('" + tx_id + "')", updateInterval);
+        updateCpuData(tx_id);
+        updateSignalStatus(tx_id);
     });
 }
 
@@ -34,26 +29,38 @@ function updateCpuData(tx_id) {
 }
 
 /**
- * Update CPU temperature data for transcoder with given id.
+ * Update CPU load data for transcoder with given id.
  * @param tx_id
  */
-function updateTemperatureData(tx_id) {
-  	$.ajax({
-		type: 'GET',
-		url: backendUrl + 'monitor/' + tx_id + '/temp?period=' + monitorPeriod(),
-		dataType: 'json',
-		success: function (responseData, textStatus, jqXHR) {
-			var seriesData = [];
-			$.each(responseData, function(i, item) {
-				seriesData.push({label: 'core-' + i , data: convertTimeSeries(item)});
-			});
-
-			var plot = $('#temperature-plot-' + tx_id).data('plot');
-			plot.setData(seriesData);
-			plot.setupGrid();
-			plot.draw();	
-		}
-	});
+function updateSignalStatus(tx_id) {
+    $.ajax({
+        type: 'GET',
+        url: backendUrl + 'transcoders/' + tx_id + '/slots/status',
+        dataType: 'json',
+        success: function (responseData, textStatus, jqXHR) {
+            var row = '<tr>';
+            var data = responseData.sort(function(a,b) {
+                if (a.slot_id > b.slot_id) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            });
+            $.each(data, function(ind, item) {
+                row += '<td class="';
+                if (item.running) {
+                  if (item.signal > 0) {
+                      row += 'has-signal';
+                  } else {
+                      row += 'no-signal';
+                  }
+                }
+                row += '"> ' + item.slot_id + '</td>';
+            });
+            row += '</tr>';
+            $('#signal-status-' + tx_id).empty().append(row);
+        }
+    });
 }
 
 function updateStatus() {
@@ -104,6 +111,7 @@ $(document).ready(function() {
         createPlots();
         updateStatus();
         setInterval("updateStatus()", updateInterval);
+
         $("#monitoring-status").click(function() {
             var action = 'start';
             if ($("#monitoring-status").text() == 'Stop Monitoring') {

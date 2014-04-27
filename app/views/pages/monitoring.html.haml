@@ -23,15 +23,29 @@
       -txcoders.each do |t|
         .span6
           %div
-            %h5= "#{t.name}"
-            %div.monitor-plot{id: "cpu-plot-#{t.id}", :'data-tx-id' => t.id, :'data-type' => 'cpu'}
+            .row-fluid
+              .span4{style: 'padding-left:7px'}
+                = link_to t.name, admin_transcoder_path(id: t.id)
+              .span8{style: 'padding-right:12px'}
+                .pull-right
+                  %table.status-table{id: "signal-status-#{t.id}", :'data-tx-id' => t.id}
+            .row-fluid
+              .span12
+                %div.monitor-plot{id: "cpu-plot-#{t.id}", :'data-tx-id' => t.id}
+    %br
 
 :javascript
   backendUrl = "#{BroadcastWeb.config.tm_api_url}"
   updateInterval = 2500
   plotOptions = {
   	series: {
-          shadowSize: 0 // drawing is faster without shadows
+  	    lines: {
+  	      show: true,
+  	      lineWidth: 1,
+  	      fill: true,
+  	    },
+  	      color: 3,
+        shadowSize: 0 // drawing is faster without shadows
       },
   	xaxis: {
           mode: 'time',
