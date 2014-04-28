@@ -3,14 +3,16 @@
   height: 200px;
 }
 
-.status-table {
+.signal-status {
   line-height: 14px;
   font-size: 10px;
   margin-top: 3px;
 
-  td {
+  span {
     text-align: center;
-    width: 25px;
+    width: 20px;
+    height: 15px;
+    float: left;
   }
 
   .has-signal {

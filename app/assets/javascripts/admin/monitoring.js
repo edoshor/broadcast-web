@@ -1,5 +1,5 @@
 function createPlots() {
-    $(".monitor-plot").each(function() {
+    $(".monitor-plot").each(function () {
         var element = $(this);
         var tx_id = element.data('tx-id');
         element.data('plot', $.plot(this, [], plotOptions));
@@ -15,17 +15,17 @@ function createPlots() {
  * @param tx_id
  */
 function updateCpuData(tx_id) {
-  	$.ajax({
-		type: 'GET',
-		url: backendUrl + 'monitor/' + tx_id + '/cpu?period=' + monitorPeriod(),
-		dataType: 'json',
-		success: function (responseData, textStatus, jqXHR) {
-			var plot = $('#cpu-plot-' + tx_id).data('plot');
-			plot.setData([ convertTimeSeries(responseData) ]);
-			plot.setupGrid();
-			plot.draw();	
-		}
-	});
+    $.ajax({
+        type: 'GET',
+        url: backendUrl + 'monitor/' + tx_id + '/cpu?period=' + monitorPeriod(),
+        dataType: 'json',
+        success: function (responseData, textStatus, jqXHR) {
+            var plot = $('#cpu-plot-' + tx_id).data('plot');
+            plot.setData([ convertTimeSeries(responseData) ]);
+            plot.setupGrid();
+            plot.draw();
+        }
+    });
 }
 
 /**
@@ -38,27 +38,26 @@ function updateSignalStatus(tx_id) {
         url: backendUrl + 'transcoders/' + tx_id + '/slots/status',
         dataType: 'json',
         success: function (responseData, textStatus, jqXHR) {
-            var row = '<tr>';
-            var data = responseData.sort(function(a,b) {
+            var data = responseData.sort(function (a, b) {
                 if (a.slot_id > b.slot_id) {
                     return 1;
                 } else {
                     return -1;
                 }
             });
-            $.each(data, function(ind, item) {
-                row += '<td class="';
+            var spans = '';
+            $.each(data, function (ind, item) {
                 if (item.running) {
-                  if (item.signal > 0) {
-                      row += 'has-signal';
-                  } else {
-                      row += 'no-signal';
-                  }
+                    spans += '<span class="';
+                    if (item.signal > 0) {
+                        spans += 'has-signal';
+                    } else {
+                        spans += 'no-signal';
+                    }
+                    spans += '"> ' + item.slot_id + '</span>';
                 }
-                row += '"> ' + item.slot_id + '</td>';
             });
-            row += '</tr>';
-            $('#signal-status-' + tx_id).empty().append(row);
+            $('#signal-status-' + tx_id).empty().append(spans);
         }
     });
 }
@@ -87,7 +86,7 @@ function updateStatus() {
  * @returns remote query api period parameter.
  */
 function monitorPeriod() {
-	return	$("#monitor-period").val();
+    return    $("#monitor-period").val();
 }
 
 /**
@@ -100,24 +99,24 @@ function monitorPeriod() {
  * @param series Time series to be converted
  */
 function convertTimeSeries(series) {
-	for (var i = 0; i < series.length; ++i) {
+    for (var i = 0; i < series.length; ++i) {
         series[i][0] *= 1000;
-	}
+    }
     return series;
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     if (typeof updateInterval != 'undefined') {
         createPlots();
         updateStatus();
         setInterval("updateStatus()", updateInterval);
 
-        $("#monitoring-status").click(function() {
+        $("#monitoring-status").click(function () {
             var action = 'start';
             if ($("#monitoring-status").text() == 'Stop Monitoring') {
                 action = 'shutdown';
             }
-            $.get(backendUrl + 'monitor/'+ action);
+            $.get(backendUrl + 'monitor/' + action);
         });
     }
 });
