@@ -56,6 +56,6 @@ method: @copy ? :post : :put do |f|
                     class: 'required',
                     selected: m
   - if @copy
-    = display_actions f, admin_presets_url
+    = display_actions f, admin_schemes_url
   - else
     = display_actions f, admin_scheme_path(id: @scheme.id)
