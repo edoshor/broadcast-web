@@ -10,20 +10,22 @@ refresh_status = () ->
   $.get("#{bb.event_id}/status?with_slots=true",
   (data) ->
     state = '<p>'
-
-    if data.running
-      state += '<h1>Running</h1>' + data.uptime
-      $('#event_start').attr('disabled', 'disabled')
-      $('#event_start').addClass('disabled')
-      $('#event_stop').removeAttr('disabled')
-      $('#event_stop').removeClass('disabled')
-    else
-      state += '<h1>Stopped</h1>'
-      if (data.last_switch) then state += new Date(data.last_switch* 1000)
-      $('#event_start').removeAttr('disabled')
-      $('#event_start').removeClass('disabled')
-      $('#event_stop').attr('disabled', 'disabled')
-      $('#event_stop').addClass('disabled')
+    switch data.state
+      when "off"
+        state += '<h1>Off</h1>'
+        if (data.last_switch) then state += new Date(data.last_switch* 1000)
+        $('#event_on').attr('disabled', 'disabled')
+        $('#event_on').addClass('disabled')
+      when "ready"
+        state += '<h1>Ready</h1>'
+        if (data.last_switch) then state += new Date(data.last_switch* 1000)
+        $('#event_on').removeAttr('disabled')
+        $('#event_on').removeClass('disabled')
+      when "on"
+        state += '<h1>On</h1>' + data.uptime
+      else
+        $('#event_ready').removeAttr('disabled')
+        $('#event_ready').removeClass('disabled')
 
     state += '</p>'
     $('#event_status').html(state)
@@ -45,10 +47,12 @@ load_transcoder_slots = () ->
     $('#slots_message').text(error['errors']).show()
 
 register_handlers = () ->
-  $('#event_start').click ->
-    $.get("#{bb.event_id}/action?command=start")
-  $('#event_stop').click ->
-    $.get("#{bb.event_id}/action?command=stop")
+  $('#event_on').click ->
+    $.get("#{bb.event_id}/action?command=on")
+  $('#event_off').click ->
+    $.get("#{bb.event_id}/action?command=off")
+  $('#event_ready').click ->
+    $.get("#{bb.event_id}/action?command=ready")
   $('#slotModal').on('show', () ->
     load_transcoder_slots())
   $('#slotModalTranscoder').change ->
