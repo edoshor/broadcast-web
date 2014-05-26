@@ -11,11 +11,13 @@
     %thead
       %tr
         %th Name
+        %th CSID
         %th Actions
     %tbody
       - @events.each do |event|
         %tr
           %td= event.name
+          %td= event.csid
           %td
             = link_to 'Show', admin_event_path(id: event.id)
             \|

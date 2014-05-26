@@ -3,7 +3,8 @@ class TMEvent
 
   attribute :id
   attribute :name
+  attribute :csid
 
-  validates_presence_of :name
+  validates_presence_of :name, :csid
 
 end

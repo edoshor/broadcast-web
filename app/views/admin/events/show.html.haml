@@ -20,6 +20,7 @@
   .span4.well
     = display_show_item('ID', @event.id)
     = display_show_item('Name', @event.name)
+    = display_show_item('CSID', @event.csid)
     = display_show_item('Number of Slots', @slots.length)
   .span8
     .row-fluid#event_status

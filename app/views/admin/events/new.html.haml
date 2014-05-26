@@ -10,4 +10,5 @@
 = simple_form_for [:admin, @event], url: admin_events_path, method: :post do |f|
   = display_errors f
   = f.input :name, label: 'Display name'
+  = f.input :csid, label: 'Cross System ID'
   = display_actions f, admin_events_url
